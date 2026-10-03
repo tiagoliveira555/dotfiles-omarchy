@@ -2,7 +2,7 @@
 set -e
 sudo pacman -S --needed --noconfirm stow git jq
 cd ~/dotfiles
-stow --no-folding -t ~ hypr bin
+stow --no-folding -t ~ hypr bin git
 
 # locale pt_BR
 sudo sed -i 's/^#\(pt_BR.UTF-8 UTF-8\)/\1/' /etc/locale.gen
