@@ -1,0 +1,14 @@
+#!/bin/bash
+# GPU híbrida (Intel + GTX 1650): prime-run, utilitários e driver de vídeo da Intel
+sudo pacman -S --needed --noconfirm nvidia-prime mesa-utils vulkan-tools intel-media-driver
+
+# supergfxctl deixa o notebook em modo Integrated (blacklist dos módulos nvidia
+# e remoção da GPU do barramento PCI a cada boot). Remove se existir.
+if pacman -Q supergfxctl &>/dev/null; then
+  sudo systemctl disable --now supergfxd || true
+  sudo pacman -Rns --noconfirm supergfxctl
+fi
+sudo rm -f /etc/modprobe.d/supergfxd.conf /etc/supergfxd.conf \
+  /etc/udev/rules.d/90-supergfxd-nvidia-pm.rules \
+  /usr/lib/udev/rules.d/90-supergfxd-nvidia-pm.rules
+sudo limine-mkinitcpio || true
