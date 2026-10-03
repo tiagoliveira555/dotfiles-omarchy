@@ -4,6 +4,10 @@ sudo pacman -S --needed --noconfirm stow git jq
 cd ~/dotfiles
 stow --no-folding -t ~ hypr bin git nvim zsh
 
+# monitors.lua: copiado (não linkado), porque o Omarchy reescreve o arquivo com sed -i e quebraria o link
+mkdir -p ~/.config/hypr
+cp ~/dotfiles/hypr-local/monitors.lua ~/.config/hypr/monitors.lua
+
 # locale pt_BR
 sudo sed -i 's/^#\(pt_BR.UTF-8 UTF-8\)/\1/' /etc/locale.gen
 sudo locale-gen
