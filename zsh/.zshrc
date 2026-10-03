@@ -70,3 +70,9 @@ alias wip='git add . && git commit -m "wip"'
 alias sud='su && dev'
 alias sahs='sa horizon:status'
 alias saht='sa horizon:terminate'
+
+# aceita comentários (#) em comandos colados no terminal interativo
+setopt interactivecomments
+
+# GPU híbrida: HYBRID se a NVIDIA está disponível, INTEGRATED se não
+alias gpumode='if lspci -k | grep -A3 -E "VGA|3D" | grep -q "driver in use: nvidia" && nvidia-smi -L >/dev/null 2>&1; then echo "HYBRID"; else echo "INTEGRATED"; fi'
