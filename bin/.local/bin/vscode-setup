@@ -1,0 +1,17 @@
+#!/bin/bash
+# VS Code: linka o settings.json do dotfiles (via stow) e instala extensões
+
+SETTINGS=~/.config/Code/User/settings.json
+
+# Se o VS Code já criou um settings.json comum, remove para o stow poder criar o link
+if [ -f "$SETTINGS" ] && [ ! -L "$SETTINGS" ]; then
+  rm "$SETTINGS"
+fi
+
+mkdir -p ~/.config/Code/User
+cd ~/dotfiles && stow --no-folding -t ~ vscode
+
+# Extensões (lista em ~/dotfiles/vscode/extensions.txt, a ser criada)
+if [ -f ~/dotfiles/vscode/extensions.txt ] && command -v code >/dev/null; then
+  xargs -n1 code --install-extension < ~/dotfiles/vscode/extensions.txt
+fi

@@ -1,0 +1,87 @@
+{
+  "editor.fontFamily": "Dank Mono",
+  "editor.fontSize": 15,
+  "editor.lineHeight": 2,
+  "editor.tabSize": 4,
+  "editor.fontLigatures": true,
+  "workbench.startupEditor": "none",
+  "explorer.compactFolders": false,
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "material-icon-theme.activeIconPack": "nest",
+  "explorer.confirmDragAndDrop": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "liveServer.settings.donotShowInfoMsg": true,
+  "git.openRepositoryInParentFolders": "never",
+  "update.showReleaseNotes": false,
+  "[blade]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "shufo.vscode-blade-formatter"
+  },
+  "bladeFormatter.format.sortTailwindcssClasses": true,
+
+  "editor.gotoLocation.multipleReferences": "goto",
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  "editor.gotoLocation.multipleDeclarations": "goto",
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "editor.gotoLocation.multipleImplementations": "goto",
+  "editor.gotoLocation.multipleTypeDefinitions": "goto",
+
+  "workbench.colorTheme": "Base16 Tomorrow",
+  "workbench.iconTheme": "material-icon-theme",
+
+  "editor.minimap.enabled": false,
+  "editor.colorDecorators": false,
+  "editor.bracketPairColorization.enabled": false,
+  "editor.matchBrackets": "never",
+  "editor.lineNumbers": "on",
+  "editor.occurrencesHighlight": "off",
+  "editor.renderLineHighlight": "none",
+  "editor.guides.highlightActiveIndentation": false,
+  "workbench.editor.showTabs": "none",
+  "workbench.activityBar.location": "hidden",
+  "workbench.statusBar.visible": false,
+  "window.menuBarVisibility": "hidden",
+  "window.titleBarStyle": "custom",
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.php$",
+        "cmd": "${workspaceFolder}/vendor/bin/pint ${file}"
+      }
+    ]
+  },
+  "[php]": {
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+  },
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.handleKeys": {
+    "<C-q>": false,
+    "<C-j>": false,
+    "<C-f>": false,
+    "<C-p>": false,
+    "<C-b>": false,
+    "<C-w>": false,
+    "<C-d>": true,
+    "<C-s>": false,
+    "<C-z>": false
+  },
+  "window.zoomLevel": 1,
+  "cSpell.userWords": [
+    "endregion"
+  ],
+  "liveServer.settings.donotVerifyTags": true,
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "redhat.telemetry.enabled": false,
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "update.mode": "none",
+  "chat.editor.fontSize": 15
+}
