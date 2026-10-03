@@ -83,5 +83,6 @@
   "redhat.telemetry.enabled": false,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
   "update.mode": "none",
-  "chat.editor.fontSize": 15
+  "chat.editor.fontSize": 15,
+  "chat.viewSessions.orientation": "stacked"
 }

@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 sudo pacman -S --needed --noconfirm stow git jq
+
+# zsh: instala e define como shell padrão (o Omarchy vem com bash)
+sudo pacman -S --needed --noconfirm zsh
+sudo chsh -s /usr/bin/zsh "$USER"
+
 cd ~/dotfiles
 stow --no-folding -t ~ hypr bin git nvim zsh
 
