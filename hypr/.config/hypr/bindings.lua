@@ -62,10 +62,10 @@ o.bind("SUPER + SHIFT + K", "Move window up",                     vim .. " move 
 o.bind("SUPER + SHIFT + L", "Move window right / next workspace", vim .. " move l")
 
 -- ===== Redimensionar: Super + Ctrl + Shift + HJKL =====
-o.bind("SUPER + CTRL + SHIFT + H", "Shrink window width",  hl.dsp.window.resize({ x = -100, y = 0,   relative = true }))
-o.bind("SUPER + CTRL + SHIFT + L", "Grow window width",    hl.dsp.window.resize({ x = 100,  y = 0,   relative = true }))
-o.bind("SUPER + CTRL + SHIFT + K", "Shrink window height", hl.dsp.window.resize({ x = 0,    y = -100, relative = true }))
-o.bind("SUPER + CTRL + SHIFT + J", "Grow window height",   hl.dsp.window.resize({ x = 0,    y = 100,  relative = true }))
+o.bind("SUPER + CTRL + SHIFT + H", "Shrink window width",  hl.dsp.window.resize({ x = -100, y = 0,   relative = true }), { repeating = true })
+o.bind("SUPER + CTRL + SHIFT + L", "Grow window width",    hl.dsp.window.resize({ x = 100,  y = 0,   relative = true }), { repeating = true })
+o.bind("SUPER + CTRL + SHIFT + K", "Shrink window height", hl.dsp.window.resize({ x = 0,    y = -100, relative = true }), { repeating = true })
+o.bind("SUPER + CTRL + SHIFT + J", "Grow window height",   hl.dsp.window.resize({ x = 0,    y = 100,  relative = true }), { repeating = true })
 
 -- ===== Janelas e apps (atalhos simples, sem Shift) =====
 -- O padrão do Omarchy 4 só fecha com Super + W; Super + Q é adicionado aqui
