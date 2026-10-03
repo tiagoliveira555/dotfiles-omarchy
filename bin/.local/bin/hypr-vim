@@ -1,10 +1,8 @@
 #!/bin/bash
-# uso: hypr-vim focus|move h|j|k|l
+
 mode=$1
 case $2 in h) d=l;; j) d=d;; k) d=u;; l) d=r;; *) exit 1;; esac
 MAXWS=10
-LOG=/tmp/hypr-vim.log
-log() { echo "$(date +%T) $*" >> "$LOG"; }
 disp() { hyprctl dispatch "$1" >/dev/null; }
 
 load_active() {
@@ -12,7 +10,6 @@ load_active() {
   act=$(hyprctl activewindow -j 2>/dev/null)
   addr=$(jq -r '.address // empty' <<<"$act" 2>/dev/null)
   floating=$(jq -r '.floating // false' <<<"$act" 2>/dev/null)
-  cls=$(jq -r '.class // ""' <<<"$act" 2>/dev/null)
   ax=0; ay=0
   if [ -n "$addr" ]; then
     read -r ax ay < <(jq -r '"\(.at[0]+.size[0]/2) \(.at[1]+.size[1]/2)"' <<<"$act")
@@ -32,8 +29,7 @@ has_neighbor() {
 }
 
 load_active
-[ "$cur" -lt 1 ] 2>/dev/null && exit 0   # ignora scratchpad
-log "$mode $2 | ws=$cur ativa=$addr ($cls)"
+[ "$cur" -lt 1 ] 2>/dev/null && exit 0
 
 case $d in l) target=$((cur-1));; r) target=$((cur+1));; esac
 
@@ -44,12 +40,10 @@ if [ "$mode" = focus ]; then
   disp "hl.dsp.focus({ workspace = \"$target\" })"; exit 0
 fi
 
-# ---- mover ----
 [ -z "$addr" ] && exit 0
 [ "$floating" = "true" ] && exit 0
 
 if has_neighbor "$d"; then
-  log "swap $d"
   disp "hl.dsp.window.swap({ direction = \"$d\" })"; exit 0
 fi
 case $d in u|d) exit 0;; esac
@@ -57,29 +51,23 @@ case $d in u|d) exit 0;; esac
 
 orig=$addr
 
-# MUDANÇA: desliga só a animação de reposicionamento (windowsMove), que anima o swap de correção.
-# windowsIn/fades continuam ligadas, então a entrada da janela segue suave como no padrão do Omarchy.
-# Restaura com os mesmos valores que windowsMove herda de "windows" no looknfeel do Omarchy.
 move_anim_off() { hyprctl eval 'hl.animation({ leaf = "windowsMove", enabled = false })' >/dev/null 2>&1; }
 move_anim_on()  { hyprctl eval 'hl.animation({ leaf = "windowsMove", enabled = true, speed = 3.79, bezier = "easeOutQuint" })' >/dev/null 2>&1; }
 trap move_anim_on EXIT
 move_anim_off
 
-log "move $orig para ws=$target"
 disp "hl.dsp.window.move({ workspace = \"$target\" })"
 
-# ---- ajuste do lado: L chega na ponta esquerda, H chega na ponta direita ----
 for w in 1 2 3 4 5 6 7 8 9 10; do
   load_active
   [ "$addr" = "$orig" ] && [ "$cur" = "$target" ] && break
   sleep 0.01
 done
-if [ "$addr" != "$orig" ]; then log "janela ativa mudou; sem ajuste"; exit 0; fi
+[ "$addr" != "$orig" ] && exit 0
 [ "$d" = "r" ] && dock=l || dock=r
 layout=$(hyprctl activeworkspace -j | jq -r '.tiledLayout')
 for i in 1 2 3 4 5 6 7 8; do
   has_neighbor "$dock" || break
-  log "ajuste $i: layout=$layout dock=$dock"
   if [ "$layout" = "scrolling" ]; then disp "hl.dsp.layout(\"swapcol $dock\")"
   else disp "hl.dsp.window.swap({ direction = \"$dock\" })"; fi
   sleep 0.03
@@ -87,4 +75,4 @@ for i in 1 2 3 4 5 6 7 8; do
   [ "$addr" != "$orig" ] && break
 done
 
-sleep 0.1   # deixa o frame final renderizar antes de religar a windowsMove
+sleep 0.1
