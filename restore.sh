@@ -5,9 +5,10 @@ sudo pacman -S --needed --noconfirm stow git jq
 # zsh: instala e define como shell padrão (o Omarchy vem com bash)
 sudo pacman -S --needed --noconfirm zsh
 sudo chsh -s /usr/bin/zsh "$USER"
-
 cd ~/dotfiles
-stow --no-folding -t ~ hypr bin git nvim zsh
+# --adopt move os arquivos padrão do sistema para o repo; o checkout restaura a sua versão
+stow --adopt --no-folding -t ~ hypr bin git nvim zsh
+git checkout -- hypr bin git nvim zsh
 
 # monitors.lua: copiado (não linkado), porque o Omarchy reescreve o arquivo com sed -i e quebraria o link
 mkdir -p ~/.config/hypr
