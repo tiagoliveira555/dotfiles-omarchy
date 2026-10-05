@@ -22,17 +22,14 @@
     "editor.defaultFormatter": "shufo.vscode-blade-formatter",
   },
   "bladeFormatter.format.sortTailwindcssClasses": true,
-
   "editor.gotoLocation.multipleReferences": "goto",
   "editor.gotoLocation.multipleDefinitions": "goto",
   "editor.gotoLocation.multipleDeclarations": "goto",
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "editor.gotoLocation.multipleImplementations": "goto",
   "editor.gotoLocation.multipleTypeDefinitions": "goto",
-
   "workbench.colorTheme": "Base16 Tomorrow",
   "workbench.iconTheme": "material-icon-theme",
-  
   "editor.minimap.enabled": false,
   "editor.colorDecorators": false,
   "editor.bracketPairColorization.enabled": false,
@@ -57,23 +54,6 @@
   "[php]": {
     "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
   },
-  "vim.insertModeKeyBindings": [
-    {
-      "before": ["j", "j"],
-      "after": ["<Esc>"]
-    }
-  ],
-  "vim.handleKeys": {
-    "<C-q>": false,
-    "<C-j>": false,
-    "<C-f>": false,
-    "<C-p>": false,
-    "<C-b>": false,
-    "<C-w>": false,
-    "<C-d>": true,
-    "<C-s>": false,
-    "<C-z>": false
-  },
   "window.zoomLevel": 1,
   "cSpell.userWords": [
     "endregion"
@@ -82,5 +62,17 @@
   "github.copilot.nextEditSuggestions.enabled": true,
   "redhat.telemetry.enabled": false,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
-  "chat.viewSessions.orientation": "stacked"
+  "chat.viewSessions.orientation": "stacked",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+"vscode-neovim.compositeKeys": {
+  "jj": {
+    "command": "vscode-neovim.escape"
+  },
+  "jk": {
+    "command": "vscode-neovim.escape"
+  },
+},
 }
