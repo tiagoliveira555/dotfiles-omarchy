@@ -1,3 +1,7 @@
+local function is_blade_nav(ctx)
+  return (ctx.source_name or ""):lower() == "blade-nav"
+end
+
 return {
   {
     "saghen/blink.cmp",
@@ -27,17 +31,15 @@ return {
               kind_icon = {
                 text = function(ctx)
                   local icon = ctx.kind_icon
-                  if ctx.source_name == "Blade-nav" then
-                    icon = ""
-                  end
+                  if is_blade_nav(ctx) then
+                    icon = ""                   end
                   return " " .. icon .. ctx.icon_gap .. " "
                 end,
                 highlight = function(ctx)
-                  local hl = "BlinkCmpKind" .. ctx.kind
-                  if ctx.source_name == "Blade-nav" then
-                    hl = "BlinkCmpKindBladeNav"
+                  if is_blade_nav(ctx) then
+                    return "BlinkCmpKindBladeNav"
                   end
-                  return hl
+                  return "BlinkCmpKind" .. ctx.kind
                 end,
               },
             },
@@ -51,19 +53,18 @@ return {
           enabled = vim.g.ai_cmp,
         },
       },
+
       sources = {
         compat = {},
-        default = { "laravel", "lsp", "path", "snippets", "buffer", "blade-nav" },
+        default = { "laravel", "lsp", "blade-nav", "path", "snippets", "buffer" },
         providers = {
           laravel = {
             name = "laravel",
             module = "laravel.blink_source",
           },
           ["blade-nav"] = {
+            name = "blade-nav",
             module = "blade-nav.integrations.blink",
-            opts = {
-              close_tag_on_complete = true,
-            },
           },
         },
       },
@@ -74,7 +75,7 @@ return {
         completion = {
           list = { selection = { preselect = false } },
           menu = {
-            auto_show = function(ctx)
+            auto_show = function()
               return vim.fn.getcmdtype() == ":"
             end,
           },

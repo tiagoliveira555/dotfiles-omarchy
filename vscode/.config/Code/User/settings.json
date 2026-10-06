@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "Dank Mono",
+  "editor.fontFamily": "DankMono Nerd Font",
   "editor.fontSize": 14,
   "editor.lineHeight": 2,
   "editor.tabSize": 4,
@@ -38,7 +38,7 @@
   "editor.occurrencesHighlight": "off",
   "editor.renderLineHighlight": "none",
   "editor.guides.highlightActiveIndentation": false,
-  "workbench.editor.showTabs": "none",
+  // "workbench.editor.showTabs": "none",
   "workbench.activityBar.location": "hidden",
   "workbench.statusBar.visible": false,
   "window.menuBarVisibility": "hidden",
@@ -67,12 +67,12 @@
     "asvetliakov.vscode-neovim": 1
   },
   "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
-"vscode-neovim.compositeKeys": {
-  "jj": {
-    "command": "vscode-neovim.escape"
-  },
-  "jk": {
-    "command": "vscode-neovim.escape"
-  },
-},
+  "vscode-neovim.compositeKeys": {
+    "jj": {
+      "command": "vscode-neovim.escape"
+    },
+    "jk": {
+      "command": "vscode-neovim.escape"
+    }
+  }
 }

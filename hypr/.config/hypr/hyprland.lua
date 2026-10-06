@@ -27,6 +27,32 @@ require("default.hypr.toggles")
 
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
--- Desktop e apps na Intel; NVIDIA só sob demanda com prime-run
+
+
+-- ============================================================
+-- GPU: desktop e apps na Intel; NVIDIA só sob demanda (prime-run)
+-- ============================================================
 hl.env("__GLX_VENDOR_LIBRARY_NAME", "mesa")
 hl.env("LIBVA_DRIVER_NAME", "iHD")
+
+
+-- ============================================================
+-- Janelas flutuantes
+-- ============================================================
+local function float_app(name, class, size)
+    hl.window_rule({
+        name   = name,
+        match  = { class = class },
+        float  = true,
+        center = true,
+        size   = size or "900 600",
+    })
+end
+
+float_app("gnome-text-editor-float", "^(org.gnome.TextEditor)$")
+float_app("laradumps-float", "(?i)laradumps")
+float_app("loupe-float", "^(org.gnome.Loupe)$")
+float_app("vlc-float", "^(vlc)$", "1100 650")
+float_app("celluloid-float", "^(io.github.celluloid_player.Celluloid)$", "1100 650")
+float_app("calculator-float", "^(org.gnome.Calculator)$", "400 600")
+float_app("sysmonitor-float", "^(org.gnome.SystemMonitor)$", "1000 650")

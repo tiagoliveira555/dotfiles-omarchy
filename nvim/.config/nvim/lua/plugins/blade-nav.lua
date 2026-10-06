@@ -1,17 +1,14 @@
 return {
   {
     "ricardoramirezr/blade-nav.nvim",
-    config = function(_, opts)
-      package.loaded["nvim-treesitter.ts_utils"] = require("nvim-treesitter.util")
-      require("blade-nav").setup(opts)
-    end,
-    dependencies = {                -- totally optional
-      "saghen/blink.cmp",           -- if using blink.cmp
-    },
-    ft = { "blade", "php" },        -- optional, improves startup time
+    cond = not vim.g.vscode,
+    ft = { "blade", "php" },
     opts = {
       close_tag_on_complete = true,
-      integrations = { cmp = false, coq = false }
+      integrations = { cmp = false, coq = false },
+      annotations = {
+        create_keymaps = true,
+      },
     },
   },
   { "jwalton512/vim-blade" },
