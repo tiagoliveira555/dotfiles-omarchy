@@ -83,7 +83,7 @@ o.bind("SUPER + Y",       "YouTube",                      { webapp = "https://yo
 o.bind("SUPER + ALT + V", "VS Code",   "code")
 o.bind("SUPER + ALT + P", "PhpStorm",  "phpstorm")
 o.bind("SUPER + ALT + D", "LaraDumps", "laradumps")
-o.bind("SUPER + ALT + T", "Teams",  "teams-for-linux")
+o.bind("SUPER + ALT + T", "Teams",  { webapp = "https://teams.cloud.microsoft/" })
 
 -- ===== Microfone =====
 o.bind("SUPER + ALT + M", "Mute microphone", "omarchy-audio-input-mute", { locked = true })

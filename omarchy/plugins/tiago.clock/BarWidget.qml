@@ -54,8 +54,8 @@ BarWidget {
 
   function formatted(date) {
     const locale = Qt.locale("pt_BR")
-    const weekday = locale.dayName(date.getDay() + 1, Locale.ShortFormat)
-    const month = locale.monthName(date.getMonth() + 1, Locale.ShortFormat)
+    const weekday = locale.dayName(date.getDay(), Locale.ShortFormat)
+    const month = locale.monthName(date.getMonth(), Locale.ShortFormat)
     const day = date.getDate()
     const time = Qt.formatTime(date, "HH:mm")
 
