@@ -56,3 +56,13 @@ float_app("vlc-float", "^(vlc)$", "1100 650")
 float_app("celluloid-float", "^(io.github.celluloid_player.Celluloid)$", "1100 650")
 float_app("calculator-float", "^(org.gnome.Calculator)$", "400 600")
 float_app("sysmonitor-float", "^(org.gnome.SystemMonitor)$", "1000 650")
+
+hl.window_rule({
+    name   = "phpstorm-dialogs-float",
+    match  = {
+        class = "^(jetbrains-phpstorm)$",
+        initial_title = "negative:^$",
+    },
+    float  = true,
+    center = true,
+})
