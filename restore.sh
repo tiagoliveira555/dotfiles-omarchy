@@ -1,31 +1,47 @@
 #!/bin/bash
 set -e
+
 sudo pacman -S --needed --noconfirm stow git jq
 
-# zsh: instala e define como shell padrão (o Omarchy vem com bash)
+# zsh: instala e define como shell padrão
 sudo pacman -S --needed --noconfirm zsh
 sudo chsh -s /usr/bin/zsh "$USER"
+
 cd ~/dotfiles
-# --adopt move os arquivos padrão do sistema para o repo; o checkout restaura a sua versão
+
+# Adota os arquivos existentes e restaura a versão do repositório
 stow --adopt --no-folding -t ~ hypr bin git nvim zsh
 git checkout -- hypr bin git nvim zsh
 
-# monitors.lua: copiado (não linkado), porque o Omarchy reescreve o arquivo com sed -i e quebraria o link
+# monitors.lua: arquivo copiado, pois o Omarchy pode reescrevê-lo
 mkdir -p ~/.config/hypr
 cp ~/dotfiles/hypr-local/monitors.lua ~/.config/hypr/monitors.lua
 
-# VS Code: settings.json linkado e extensões instaladas
+# VS Code
 ~/.local/bin/vscode-setup
 
-# locale pt_BR
-sudo sed -i 's/^#\(pt_BR.UTF-8 UTF-8\)/\1/' /etc/locale.gen
+# Locale pt_BR
+sudo sed -i 's/^\#\(pt_BR.UTF-8 UTF-8\)/\1/' /etc/locale.gen
 sudo locale-gen
 sudo localectl set-locale LANG=pt_BR.UTF-8
 
-# áudio: firmware do SOF (o perfil com Speaker é aplicado pelo script audio-speaker-profile)
-sudo pacman -S --needed --noconfirm sof-firmware alsa-firmware alsa-ucm-conf
+# Áudio
+sudo pacman -S --needed --noconfirm \
+    sof-firmware alsa-firmware alsa-ucm-conf
 
-# GPU híbrida (Intel + GTX 1650): pacotes e limpeza do supergfxctl
+# GPU híbrida (Intel + NVIDIA)
 ~/.local/bin/gpu-hybrid-setup
+
+# Personalizações do Omarchy
+mkdir -p ~/.config/omarchy/plugins
+
+# Vincula o shell.json ao repositório
+ln -sfn ~/dotfiles/omarchy/shell.json ~/.config/omarchy/shell.json
+
+# Vincula os plugins personalizados ao repositório
+for plugin in tiago.clock tiago.weather tiago.notifications; do
+    ln -sfn ~/dotfiles/omarchy/plugins/"$plugin" \
+        ~/.config/omarchy/plugins/"$plugin"
+done
 
 echo "Pronto. Reinicie."

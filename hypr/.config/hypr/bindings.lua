@@ -44,6 +44,12 @@ hl.unbind("SUPER + SHIFT + Y")          -- YouTube   -> Super + Y
 -- Bloquear tela: Super + Shift + Escape
 o.bind("SUPER + SHIFT + ESCAPE", "Lock system", "omarchy-system-lock")
 
+-- Matar um programa travado
+o.bind("SUPER + DELETE", "Kill window (click)", "hyprctl kill")
+
+-- Matar a janela focada
+o.bind("SUPER + SHIFT + DELETE", "Kill focused window", hl.dsp.window.kill())
+
 -- Funções que saíram de J/K/L, agora em teclas livres
 o.bind("SUPER + F1",       "Keybindings",             "omarchy menu keybindings")
 o.bind("SUPER + CTRL + J", "Toggle window split",     hl.dsp.layout("togglesplit"))
@@ -83,7 +89,7 @@ o.bind("SUPER + Y",       "YouTube",                      { webapp = "https://yo
 o.bind("SUPER + ALT + V", "VS Code",   "code")
 o.bind("SUPER + ALT + P", "PhpStorm",  "phpstorm")
 o.bind("SUPER + ALT + D", "LaraDumps", "laradumps")
-o.bind("SUPER + ALT + T", "Teams",  { webapp = "https://teams.cloud.microsoft/" })
+o.bind("SUPER + ALT + T", "Teams",  "teams-for-linux")
 
 -- ===== Microfone =====
 o.bind("SUPER + ALT + M", "Mute microphone", "omarchy-audio-input-mute", { locked = true })
