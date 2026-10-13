@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "tiago.screen-recording",
+  "name": "Screen Recording",
+  "version": "1.0.0",
+  "author": "Tiago",
+  "description": "GPU screen recording status and stop control",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Screen Recording",
+    "description": "Shows a red icon while the screen is being recorded.",
+    "category": "Status",
+    "allowMultiple": false
+  }
+}

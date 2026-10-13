@@ -39,7 +39,12 @@ mkdir -p ~/.config/omarchy/plugins
 ln -sfn ~/dotfiles/omarchy/shell.json ~/.config/omarchy/shell.json
 
 # Vincula os plugins personalizados ao repositório
-for plugin in tiago.clock tiago.weather tiago.notifications; do
+for plugin in \
+    tiago.clock \
+    tiago.weather \
+    tiago.notifications \
+    tiago.screen-recording
+do
     ln -sfn ~/dotfiles/omarchy/plugins/"$plugin" \
         ~/.config/omarchy/plugins/"$plugin"
 done
