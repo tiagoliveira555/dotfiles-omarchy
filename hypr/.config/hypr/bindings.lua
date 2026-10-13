@@ -9,37 +9,22 @@ local vim = "/home/tiago/.local/bin/hypr-vim"
 hl.unbind("SUPER + J")
 hl.unbind("SUPER + K")
 hl.unbind("SUPER + L")
+hl.unbind("SUPER + CTRL + C")
 
 -- Colados no resize (Super + Ctrl + Shift + HJKL): fáceis de acionar sem querer
 hl.unbind("SUPER + CTRL + H")   -- menu de hardware (continua em Super + Space)
 hl.unbind("SUPER + CTRL + K")   -- atalhos do Herdr (Tmux continua em Super + Alt + K)
 hl.unbind("SUPER + CTRL + L")   -- bloquear tela (movido abaixo)
 
--- ===== Apps padrão removidos (não uso) =====
-hl.unbind("SUPER + SHIFT + G")          -- Signal
-hl.unbind("SUPER + SHIFT + O")          -- Obsidian
-hl.unbind("SUPER + SHIFT + SLASH")      -- Passwords
-hl.unbind("SUPER + SHIFT + A")          -- ChatGPT
-hl.unbind("SUPER + SHIFT + ALT + A")    -- Grok
-hl.unbind("SUPER + SHIFT + C")          -- Calendar
-hl.unbind("SUPER + SHIFT + E")          -- Email
-hl.unbind("SUPER + SHIFT + ALT + E")    -- New email
-hl.unbind("SUPER + SHIFT + ALT + G")    -- WhatsApp
-hl.unbind("SUPER + SHIFT + CTRL + G")   -- Google Messages
-hl.unbind("SUPER + SHIFT + P")          -- Google Photos
-hl.unbind("SUPER + SHIFT + S")          -- Google Maps (a tecla vira screenshot, abaixo)
-hl.unbind("SUPER + SHIFT + X")          -- X
-hl.unbind("SUPER + SHIFT + ALT + X")    -- X Post
-
 -- ===== Atalhos com Shift que ganharam versão sem Shift (duplicados) =====
-hl.unbind("SUPER + SHIFT + RETURN")     -- Browser   -> Super + B
-hl.unbind("SUPER + SHIFT + B")          -- Browser   -> Super + B
-hl.unbind("SUPER + SHIFT + F")          -- Arquivos  -> Super + E
+hl.unbind("SUPER + SHIFT + RETURN")     -- Browser -> Super + B
+hl.unbind("SUPER + SHIFT + B")          -- Browser -> Super + B
+hl.unbind("SUPER + SHIFT + F")          -- Arquivos -> Super + E
 hl.unbind("SUPER + ALT + SHIFT + F")    -- Arquivos (cwd) -> Super + Alt + E
-hl.unbind("SUPER + SHIFT + N")          -- Editor    -> Super + N
-hl.unbind("SUPER + SHIFT + M")          -- Música    -> Super + M
-hl.unbind("SUPER + SHIFT + D")          -- Docker    -> Super + D
-hl.unbind("SUPER + SHIFT + Y")          -- YouTube   -> Super + Y
+hl.unbind("SUPER + SHIFT + N")          -- Editor -> Super + N
+hl.unbind("SUPER + SHIFT + M")          -- Música -> Super + M
+hl.unbind("SUPER + SHIFT + D")          -- Docker -> Super + D
+hl.unbind("SUPER + SHIFT + Y")          -- YouTube -> Super + Y
 
 -- Bloquear tela: Super + Shift + Escape
 o.bind("SUPER + SHIFT + ESCAPE", "Lock system", "omarchy-system-lock")
@@ -68,8 +53,8 @@ o.bind("SUPER + SHIFT + K", "Move window up",                     vim .. " move 
 o.bind("SUPER + SHIFT + L", "Move window right / next workspace", vim .. " move l")
 
 -- ===== Redimensionar: Super + Ctrl + Shift + HJKL =====
-o.bind("SUPER + CTRL + SHIFT + H", "Shrink window width",  hl.dsp.window.resize({ x = -100, y = 0,   relative = true }), { repeating = true })
-o.bind("SUPER + CTRL + SHIFT + L", "Grow window width",    hl.dsp.window.resize({ x = 100,  y = 0,   relative = true }), { repeating = true })
+o.bind("SUPER + CTRL + SHIFT + H", "Shrink window width",  hl.dsp.window.resize({ x = -100, y = 0, relative = true }), { repeating = true })
+o.bind("SUPER + CTRL + SHIFT + L", "Grow window width",    hl.dsp.window.resize({ x = 100,  y = 0, relative = true }), { repeating = true })
 o.bind("SUPER + CTRL + SHIFT + K", "Shrink window height", hl.dsp.window.resize({ x = 0,    y = -100, relative = true }), { repeating = true })
 o.bind("SUPER + CTRL + SHIFT + J", "Grow window height",   hl.dsp.window.resize({ x = 0,    y = 100,  relative = true }), { repeating = true })
 
@@ -96,7 +81,7 @@ o.bind("SUPER + ALT + M", "Mute microphone", "omarchy-audio-input-mute", { locke
 
 -- ===== Teclas especiais do Logitech Pebble Keys 2 K380s (modo Windows) =====
 -- F9 (print): o teclado envia Super + Shift + S
-o.bind("SUPER + SHIFT + S", "Screenshot (K380s F9)", "omarchy-capture-screenshot")
+o.bind("SUPER + SHIFT + S", "Capture menu (K380s F9)", "omarchy-menu toggle capture")
 -- F8 (emoji): o teclado envia Ctrl + Shift + Alt + Super + Space
 o.bind("SUPER + CTRL + SHIFT + ALT + SPACE", "Emojis (K380s F8)", "omarchy-shell shell toggle omarchy.emojis")
 -- F7 (microfone) envia Super + H e colide com o foco à esquerda.
