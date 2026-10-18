@@ -10,8 +10,8 @@ sudo chsh -s /usr/bin/zsh "$USER"
 cd ~/dotfiles
 
 # Adota os arquivos existentes e restaura a versão do repositório
-stow --adopt --no-folding -t ~ hypr bin git nvim tmux zsh
-git checkout -- hypr bin git nvim tmux zsh
+stow --adopt --no-folding -t ~ hypr bin git nvim tmux zsh ideavim
+git checkout -- hypr bin git nvim tmux zsh ideavim
 
 # monitors.lua: arquivo copiado, pois o Omarchy pode reescrevê-lo
 mkdir -p ~/.config/hypr

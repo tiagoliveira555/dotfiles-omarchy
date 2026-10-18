@@ -1,0 +1,169 @@
+" ==========================================
+" IdeaVim - configuracao inspirada no LazyVim
+" ==========================================
+
+" Leader: Space
+let mapleader = " "
+let maplocalleader = " "
+
+" ==========================================
+" Preferencias de edicao
+" ==========================================
+
+" Numeração e navegação
+set number
+set scrolloff=4
+
+" Busca
+set incsearch
+set ignorecase
+set smartcase
+
+" Integração com o sistema e PhpStorm
+set clipboard+=unnamedplus
+set ideajoin
+
+" ==========================================
+" Modo Insert
+" ==========================================
+
+" Sair do Insert com jj ou jk
+inoremap jj <Esc>
+inoremap jk <Esc>
+inoremap <C-c> <Esc>
+
+" ==========================================
+" Tratamento de atalhos
+" ==========================================
+
+" Manter atalhos Vim no modo Normal
+sethandler <C-H> n:vim
+sethandler <C-J> n:vim
+sethandler <C-K> n:vim
+sethandler <C-L> n:vim
+
+" Atalhos Vim adicionais
+sethandler <C-D> a:vim
+sethandler <C-O> a:vim
+sethandler <C-U> a:vim
+
+" Ctrl+E: arquivos recentes do PhpStorm
+sethandler <C-E> n:ide
+
+" ==========================================
+" Edicao inspirada no LazyVim
+" ==========================================
+
+" Indentar e manter a selecao no Visual Mode
+vnoremap > >gv
+vnoremap < <gv
+
+" Mover linhas para cima e para baixo
+map <A-j> <Action>(MoveLineDown)
+map <A-k> <Action>(MoveLineUp)
+
+" ==========================================
+" Busca e acoes da IDE
+" ==========================================
+
+" Search Everywhere
+map <leader><leader> <Action>(SearchEverywhere)
+
+" Buscar arquivos
+map <leader>f <Action>(GotoFile)
+
+" Buscar classes
+map <leader>c <Action>(GotoClass)
+
+" Buscar simbolos
+map <leader>s <Action>(GotoSymbol)
+
+" Buscar texto no projeto
+map <leader>/ <Action>(FindInPath)
+
+" Menu de acoes
+map <leader>a <Action>(GotoAction)
+
+" Renomear simbolo
+map <leader>r <Action>(RenameElement)
+
+" Reformatar codigo
+map <leader>cf <Action>(ReformatCode)
+
+" ==========================================
+" Painel Project
+" ==========================================
+
+map <leader>e <Action>(ActivateProjectToolWindow)
+
+" ==========================================
+" Navegacao entre abas
+" ==========================================
+
+map <S-H> <Action>(PreviousTab)
+map <S-L> <Action>(NextTab)
+
+" Fechar aba atual
+map <leader>q <Action>(CloseContent)
+
+" Fechar todas as outras abas
+map <leader>bo <Action>(CloseAllEditorsButActive)
+
+" Fechar abas a esquerda
+map <leader>bh <Action>(CloseAllToTheLeft)
+
+" Fechar abas a direita
+map <leader>bl <Action>(CloseAllToTheRight)
+
+" Fechar todas as abas
+map <leader>bq <Action>(CloseAllEditors)
+
+" ==========================================
+" Navegacao entre splits do editor
+" ==========================================
+
+nnoremap <C-H> <C-W>h
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
+
+" ==========================================
+" Plugins IdeaVim
+" ==========================================
+
+" Comentarios: gcc, gc
+Plug 'tpope/vim-commentary'
+set commentary
+
+" Destacar texto copiado
+Plug 'machakann/vim-highlightedyank'
+set highlightedyank
+let g:highlightedyank_highlight_duration = 201
+
+" Delimitadores: ys, cs, ds
+" Plug 'tpope/vim-surround'
+" set surround
+
+" Objetos de texto para metodos e funcoes
+" set functextobj
+
+" Alvos de texto: pares, aspas, argumentos e tags
+" Plug 'wellle/targets.vim'
+" set targets
+
+" ==========================================
+" Plugins opcionais
+" ==========================================
+
+" EasyMotion
+" Requer IdeaVim-EasyMotion e AceJump instalados na IDE
+" Plug 'easymotion/vim-easymotion'
+" set easymotion
+
+" Which-Key
+" Requer o plugin correspondente instalado na IDE
+" set which-key
+
+" Vim AnyObject
+" Requer o plugin correspondente instalado na IDE
+" set anyobject
