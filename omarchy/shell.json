@@ -13,12 +13,20 @@
         "set": {
           "urgency": "normal"
         }
+      },
+      {
+        "app": "Brave Origin",
+        "body~": "teams\\.cloud\\.microsoft",
+        "urgency": "critical",
+        "set": {
+          "urgency": "normal"
+        }
       }
     ]
   },
   "bar": {
     "position": "top",
-    "transparent": false,
+    "transparent": true,
     "centerAnchor": "omarchy.clock",
     "layout": {
       "left": [

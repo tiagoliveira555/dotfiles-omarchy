@@ -41,7 +41,6 @@
   // "workbench.editor.showTabs": "none",
   "workbench.activityBar.location": "hidden",
   "workbench.statusBar.visible": false,
-  "window.menuBarVisibility": "hidden",
   "window.titleBarStyle": "custom",
   "emeraldwalk.runonsave": {
     "commands": [
@@ -74,5 +73,6 @@
     "jk": {
       "command": "vscode-neovim.escape"
     }
-  }
+  },
+  "window.menuBarVisibility": "compact"
 }

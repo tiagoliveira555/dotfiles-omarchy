@@ -123,3 +123,11 @@ vim.keymap.set("v", "<leader>ln", ':lua require("config.utils").get_highlighted_
 
 vim.keymap.set("n", "<Esc>", ":nohlsearch<CR>", opts)
 
+-- Laravel: traduzir / adicionar tradução
+vim.keymap.set("n", "<leader>cT", function()
+  require("config.laravel_lang").add()
+end, { desc = "Laravel: traduzir / adicionar tradução" })
+
+vim.keymap.set("x", "<leader>cT", function()
+  require("config.laravel_lang").add_visual()
+end, { desc = "Laravel: traduzir seleção" })

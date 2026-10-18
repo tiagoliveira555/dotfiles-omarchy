@@ -90,6 +90,9 @@ map <leader>r <Action>(RenameElement)
 " Reformatar codigo
 map <leader>cf <Action>(ReformatCode)
 
+" Gerar traducoes pelo Laravel Idea
+map <leader>ct <Action>(com.laravel_idea.plugin.GenerateTranslationFromPhpAction)
+
 " ==========================================
 " Painel Project
 " ==========================================
