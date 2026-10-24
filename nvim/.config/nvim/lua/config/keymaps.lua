@@ -1,4 +1,8 @@
 local opts = { noremap = true, silent = true }
+
+local lang = require("config.laravel_lang")
+lang.setup()
+
 -- local map = vim.keymap.set
 
 -- Keep cursor centered when scrolling
@@ -69,8 +73,6 @@ if not vim.g.vscode then
 end
 vim.keymap.set("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
-
-
 -- Navigate buffers
 -- vim.keymap.set("n", "<Right>", ":bnext<CR>", opts)
 -- vim.keymap.set("n", "<Left>", ":bprevious<CR>", opts)
@@ -85,10 +87,11 @@ vim.keymap.set("n", "-", ":resize -5<CR>")
 -- vim.keymap.set("n", "<CR>", "ciw", opts)  -- Commented out: This overwrites word on Enter - too disruptive
 -- vim.keymap.set("n", "<BS>", "ci", opts)   -- Commented out: This changes text on Backspace - too disruptive
 
-vim.keymap.set("n", "n", "nzzv", opts)
-vim.keymap.set("n", "N", "Nzzv", opts)
-vim.keymap.set("n", "*", "*zzv", opts)
-vim.keymap.set("n", "#", "#zzv", opts)
+-- Search navigation
+vim.keymap.set("n", "n", "nzz", opts)
+vim.keymap.set("n", "N", "Nzz", opts)
+vim.keymap.set("n", "*", "*zz", opts)
+vim.keymap.set("n", "#", "#zz", opts)
 vim.keymap.set("n", "g*", "g*zz", opts)
 vim.keymap.set("n", "g#", "g#zz", opts)
 
@@ -109,14 +112,14 @@ vim.keymap.set("n", "<C-a>", "ggVG", opts)
 
 -- write file in current directory
 -- :w %:h/<new-file-name>
-vim.keymap.set("n", "<C-n>", ":w %:h/", opts)
+-- vim.keymap.set("n", "<C-n>", ":w %:h/", opts)
 
 -- delete forward
 -- w{number}dw
 -- delete backward
 -- w{number}db
 
-vim.keymap.set("n", "<C-P>", ':lua require("config.utils").toggle_go_test()<CR>', opts)
+-- vim.keymap.set("n", "<C-P>", ':lua require("config.utils").toggle_go_test()<CR>', opts)
 
 -- Get highlighted line numbers in visual mode
 vim.keymap.set("v", "<leader>ln", ':lua require("config.utils").get_highlighted_line_numbers()<CR>', opts)
@@ -124,10 +127,5 @@ vim.keymap.set("v", "<leader>ln", ':lua require("config.utils").get_highlighted_
 vim.keymap.set("n", "<Esc>", ":nohlsearch<CR>", opts)
 
 -- Laravel: traduzir / adicionar tradução
-vim.keymap.set("n", "<leader>cT", function()
-  require("config.laravel_lang").add()
-end, { desc = "Laravel: traduzir / adicionar tradução" })
-
-vim.keymap.set("x", "<leader>cT", function()
-  require("config.laravel_lang").add_visual()
-end, { desc = "Laravel: traduzir seleção" })
+vim.keymap.set("n", "gl", function() lang.add() end, { desc = "Laravel: traduções" })
+vim.keymap.set("x", "gl", function() lang.add_visual() end, { desc = "Laravel: traduzir seleção" })
