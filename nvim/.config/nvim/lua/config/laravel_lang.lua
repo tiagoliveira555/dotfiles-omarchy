@@ -28,7 +28,9 @@ local MAXH = 10
 -- Utilitários
 ---------------------------------------------------------------------------
 local function notify(msg, level)
-  if M.debug then vim.notify(msg, level or vim.log.levels.INFO) end
+  if M.debug then
+    vim.notify(msg, level or vim.log.levels.INFO)
+  end
 end
 
 local function say(msg)
@@ -42,7 +44,9 @@ local function esc(s)
 end
 
 local function unescape(q, raw)
-  if q == "'" then return (raw:gsub("\\([\\'])", "%1")) end
+  if q == "'" then
+    return (raw:gsub("\\([\\'])", "%1"))
+  end
   return (raw:gsub('\\(["\\])', "%1"))
 end
 
@@ -58,7 +62,9 @@ end
 -- texto curto, em uma linha, para listas
 local function short(s, n)
   s = squash(s or "")
-  if vim.fn.strchars(s) > n then s = vim.fn.strcharpart(s, 0, n) .. "…" end
+  if vim.fn.strchars(s) > n then
+    s = vim.fn.strcharpart(s, 0, n) .. "…"
+  end
   return s
 end
 
@@ -74,7 +80,9 @@ local function open_at(path, line, col)
   vim.cmd("edit " .. vim.fn.fnameescape(path))
   if line then
     pcall(vim.api.nvim_win_set_cursor, 0, { line, col or 0 })
-    if not col then vim.cmd("normal! ^") end
+    if not col then
+      vim.cmd("normal! ^")
+    end
     vim.cmd("normal! zz")
   end
 end
@@ -108,14 +116,20 @@ local function new_list(place, minw)
 
   function L:render()
     local n = #self.items
-    if n == 0 then return self:close() end
+    if n == 0 then
+      return self:close()
+    end
 
     local w = math.min(vim.o.columns - 4, math.max(self.minw, self.longest))
     local row, col, h = place(n, w)
 
     if self.sel > 0 then
-      if self.sel < self.top then self.top = self.sel end
-      if self.sel > self.top + h - 1 then self.top = self.sel - h + 1 end
+      if self.sel < self.top then
+        self.top = self.sel
+      end
+      if self.sel > self.top + h - 1 then
+        self.top = self.sel - h + 1
+      end
     end
     self.top = math.max(1, math.min(self.top, n - h + 1))
 
@@ -176,7 +190,9 @@ local function new_list(place, minw)
     local m = 0
     for _, it in ipairs(items) do
       local wd = vim.fn.strdisplaywidth(it.word)
-      if it.hint then wd = wd + 3 + vim.fn.strdisplaywidth(it.hint) end
+      if it.hint then
+        wd = wd + 3 + vim.fn.strdisplaywidth(it.hint)
+      end
       m = math.max(m, wd)
     end
     self.longest = m + 2 -- prefixo "▸ "
@@ -185,7 +201,9 @@ local function new_list(place, minw)
 
   function L:move(delta)
     local n = #self.items
-    if n == 0 then return end
+    if n == 0 then
+      return
+    end
     if delta > 0 then
       self.sel = self.sel >= n and 1 or self.sel + 1
     else
@@ -262,12 +280,18 @@ local function input(opts, on_done)
   -- fechamento --------------------------------------------------------
   local done = false
   local function finish(value, leave_insert)
-    if done then return end
+    if done then
+      return
+    end
     done = true
     list:close()
-    if leave_insert then vim.cmd("stopinsert") end
+    if leave_insert then
+      vim.cmd("stopinsert")
+    end
     vim.schedule(function()
-      if vim.api.nvim_win_is_valid(win) then pcall(vim.api.nvim_win_close, win, true) end
+      if vim.api.nvim_win_is_valid(win) then
+        pcall(vim.api.nvim_win_close, win, true)
+      end
       on_done(value)
     end)
   end
@@ -291,18 +315,24 @@ local function input(opts, on_done)
     local last
 
     local function refresh(force)
-      if done or not vim.api.nvim_buf_is_valid(buf) then return end
+      if done or not vim.api.nvim_buf_is_valid(buf) then
+        return
+      end
       local line = vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1] or ""
       local ok_c, pos = pcall(vim.api.nvim_win_get_cursor, win)
       local text = line:sub(1, ok_c and pos[2] or #line)
-      if not force and text == last then return end
+      if not force and text == last then
+        return
+      end
       last = text
 
       local ok, items = pcall(opts.complete, text)
       local filtered = {}
       if ok and items then
         for _, it in ipairs(items) do
-          if it.word ~= text then filtered[#filtered + 1] = it end
+          if it.word ~= text then
+            filtered[#filtered + 1] = it
+          end
         end
       end
       list:set(filtered)
@@ -310,7 +340,9 @@ local function input(opts, on_done)
 
     local function accept()
       local item = list:current()
-      if not item then return false end
+      if not item then
+        return false
+      end
       vim.api.nvim_buf_set_lines(buf, 0, 1, false, { item.word })
       pcall(vim.api.nvim_win_set_cursor, win, { 1, #item.word })
       refresh(true)
@@ -318,20 +350,30 @@ local function input(opts, on_done)
     end
 
     for _, lhs in ipairs({ "<Tab>", "<C-n>", "<Down>" }) do
-      vim.keymap.set("i", lhs, function() list:move(1) end, { buffer = buf, nowait = true })
+      vim.keymap.set("i", lhs, function()
+        list:move(1)
+      end, { buffer = buf, nowait = true })
     end
     for _, lhs in ipairs({ "<S-Tab>", "<C-p>", "<Up>" }) do
-      vim.keymap.set("i", lhs, function() list:move(-1) end, { buffer = buf, nowait = true })
+      vim.keymap.set("i", lhs, function()
+        list:move(-1)
+      end, { buffer = buf, nowait = true })
     end
     vim.keymap.set("i", "<CR>", function()
-      if not accept() then confirm() end
+      if not accept() then
+        confirm()
+      end
     end, { buffer = buf, nowait = true })
 
     vim.api.nvim_create_autocmd("TextChangedI", {
       buffer = buf,
-      callback = function() refresh(false) end,
+      callback = function()
+        refresh(false)
+      end,
     })
-    vim.defer_fn(function() refresh(true) end, 30)
+    vim.defer_fn(function()
+      refresh(true)
+    end, 30)
   else
     vim.keymap.set("i", "<CR>", confirm, { buffer = buf, nowait = true })
   end
@@ -340,9 +382,17 @@ local function input(opts, on_done)
   vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
     buffer = buf,
     once = true,
-    callback = function() finish(nil, false) end,
+    callback = function()
+      finish(nil, false)
+    end,
   })
-  vim.api.nvim_create_autocmd("BufWipeout", { buffer = buf, once = true, callback = function() list:close() end })
+  vim.api.nvim_create_autocmd("BufWipeout", {
+    buffer = buf,
+    once = true,
+    callback = function()
+      list:close()
+    end,
+  })
 
   vim.cmd("startinsert!")
 end
@@ -353,13 +403,17 @@ end
 local function find_root()
   for _, markers in ipairs({ { "artisan" }, { "composer.json" }, { ".git" } }) do
     local r = vim.fs.root(0, markers)
-    if r then return r end
+    if r then
+      return r
+    end
   end
   return vim.fn.getcwd()
 end
 
 local function has_locales(dir)
-  if vim.fn.isdirectory(dir) == 0 then return false end
+  if vim.fn.isdirectory(dir) == 0 then
+    return false
+  end
   for _, name in ipairs(vim.fn.readdir(dir)) do
     if name ~= "vendor" and (vim.fn.isdirectory(dir .. "/" .. name) == 1 or name:match("%.json$")) then
       return true
@@ -370,7 +424,9 @@ end
 
 local function lang_dir(root)
   for _, d in ipairs({ "lang", "resources/lang" }) do
-    if has_locales(root .. "/" .. d) then return root .. "/" .. d end
+    if has_locales(root .. "/" .. d) then
+      return root .. "/" .. d
+    end
   end
   return root .. "/lang"
 end
@@ -398,7 +454,9 @@ local function default_locale(root)
   local env = read(root .. "/.env")
   if env then
     local v = ("\n" .. env):match("\nAPP_LOCALE%s*=%s*[\"']?([%w_%-]+)")
-    if v then return v end
+    if v then
+      return v
+    end
   end
   local cfg = read(root .. "/config/app.php")
   if cfg then
@@ -409,7 +467,9 @@ end
 
 -- coloca o locale padrão (casando pt-BR / pt_BR / ptbr) na frente da lista
 local function sort_locales(locales, default)
-  if not default then return locales end
+  if not default then
+    return locales
+  end
   local out, rest = {}, {}
   for _, l in ipairs(locales) do
     if norm_locale(l) == norm_locale(default) then
@@ -463,7 +523,9 @@ local function parse_php_lang(src)
         pos = len + 1
         break
       end
-      if s > pos then buf[#buf + 1] = src:sub(pos, s - 1) end
+      if s > pos then
+        buf[#buf + 1] = src:sub(pos, s - 1)
+      end
       local c = src:sub(s, s)
       if c == q then
         pos = s + 1
@@ -504,7 +566,9 @@ local function parse_php_lang(src)
         depth = depth + 1
         pos = pos + 1
       elseif c == ")" or c == "]" then
-        if depth == 0 then break end
+        if depth == 0 then
+          break
+        end
         depth = depth - 1
         pos = pos + 1
       elseif c == "," and depth == 0 then
@@ -534,7 +598,9 @@ local function parse_php_lang(src)
       val = parse_array("]")
     else
       local s, e = src:find("^array%s*%(", pos)
-      if not s then return nil, skip_expr() end
+      if not s then
+        return nil, skip_expr()
+      end
       pos = e + 1
       val = parse_array(")")
     end
@@ -569,12 +635,18 @@ local function parse_php_lang(src)
           pos = pos + 2
           local k = v ~= nil and tostring(v) or raw
           local val = parse_value()
-          if k ~= nil and val ~= nil then t[k] = val end
+          if k ~= nil and val ~= nil then
+            t[k] = val
+          end
         else
-          if v ~= nil then t[tostring(idx)] = v end
+          if v ~= nil then
+            t[tostring(idx)] = v
+          end
           idx = idx + 1
         end
-        if pos == before then pos = pos + 1 end -- evita loop infinito
+        if pos == before then
+          pos = pos + 1
+        end -- evita loop infinito
       end
     end
     return t
@@ -586,14 +658,18 @@ local function parse_php_lang(src)
     s, e = src:find("return%s*array%s*%(")
     close = ")"
   end
-  if not s then return nil end
+  if not s then
+    return nil
+  end
   pos = e + 1
   return parse_array(close)
 end
 
 local function lang_table(path)
   local src = read(path)
-  if not src then return nil end
+  if not src then
+    return nil
+  end
   local ok, t = pcall(parse_php_lang, src)
   return ok and t or nil
 end
@@ -611,10 +687,14 @@ end
 
 -- resolve `a.b.c` como o Laravel (chave plana primeiro, depois aninhada)
 local function lookup_dotted(t, dotted)
-  if t[dotted] ~= nil then return t[dotted] end
+  if t[dotted] ~= nil then
+    return t[dotted]
+  end
   local cur = t
   for seg in dotted:gmatch("[^%.]+") do
-    if type(cur) ~= "table" or cur[seg] == nil then return nil end
+    if type(cur) ~= "table" or cur[seg] == nil then
+      return nil
+    end
     cur = cur[seg]
   end
   return cur
@@ -625,20 +705,32 @@ end
 ---------------------------------------------------------------------------
 -- retorna "exists", valor | "missing" | "unknown"
 local function lookup_php(path, dotted)
-  if vim.fn.filereadable(path) == 0 then return "missing" end
+  if vim.fn.filereadable(path) == 0 then
+    return "missing"
+  end
   local t = lang_table(path)
-  if not t then return "unknown" end
+  if not t then
+    return "unknown"
+  end
   local v = lookup_dotted(t, dotted)
-  if v == nil then return "missing" end
+  if v == nil then
+    return "missing"
+  end
   return "exists", type(v) == "string" and v or "[array]"
 end
 
 local function lookup_json(path, key)
   local content = read(path)
-  if not content then return "missing" end
+  if not content then
+    return "missing"
+  end
   local ok, data = pcall(vim.json.decode, content)
-  if not ok or type(data) ~= "table" then return "unknown" end
-  if data[key] ~= nil then return "exists", tostring(data[key]) end
+  if not ok or type(data) ~= "table" then
+    return "unknown"
+  end
+  if data[key] ~= nil then
+    return "exists", tostring(data[key])
+  end
   return "missing"
 end
 
@@ -658,14 +750,18 @@ end
 -- chaves de um grupo: { {key="tenant/app.events.x", short="events.x", value="..."}, ... }
 local function group_items(ld, loc, group)
   local t = lang_table(("%s/%s/%s.php"):format(ld, loc, group))
-  if not t then return nil end
+  if not t then
+    return nil
+  end
   local items = {}
   flatten(t, "", function(k, v)
     if type(v) == "string" then
       items[#items + 1] = { key = group .. "." .. k, short = k, value = v }
     end
   end)
-  table.sort(items, function(a, b) return a.key < b.key end)
+  table.sort(items, function(a, b)
+    return a.key < b.key
+  end)
   return items
 end
 
@@ -686,7 +782,9 @@ local function all_items(ld, loc)
       end
     end
   end
-  table.sort(items, function(a, b) return a.key < b.key end)
+  table.sort(items, function(a, b)
+    return a.key < b.key
+  end)
   return items
 end
 
@@ -695,7 +793,9 @@ local function find_candidates(ld, loc, text)
   local want = squash(text)
   local res = {}
   for _, it in ipairs(all_items(ld, loc)) do
-    if squash(it.value) == want then res[#res + 1] = it.key end
+    if squash(it.value) == want then
+      res[#res + 1] = it.key
+    end
   end
   return res
 end
@@ -712,7 +812,9 @@ local function key_completer(ld, loc)
   end
 
   local function get_keys(group)
-    if cache[group] then return cache[group] end
+    if cache[group] then
+      return cache[group]
+    end
     local out = {}
     for _, it in ipairs(group_items(ld, loc, group) or {}) do
       out[#out + 1] = { short = it.short, value = it.value }
@@ -753,7 +855,9 @@ local function key_completer(ld, loc)
       end
     end
 
-    table.sort(items, function(a, b) return a.word < b.word end)
+    table.sort(items, function(a, b)
+      return a.word < b.word
+    end)
     return items
   end
 end
@@ -790,7 +894,9 @@ local function find_close(text, open_idx)
       depth = depth + 1
     elseif c == ")" or c == "]" or c == "}" then
       depth = depth - 1
-      if depth == 0 then return i end
+      if depth == 0 then
+        return i
+      end
     end
     i = i + 1
   end
@@ -844,7 +950,9 @@ local function scan_calls(line, more)
     local init = 1
     while true do
       local s, e = line:find(vim.pesc(fn) .. "%(", init)
-      if not s then break end
+      if not s then
+        break
+      end
       init = e + 1
       local prev = s > 1 and line:sub(s - 1, s - 1) or ""
       if fn:sub(1, 1) == "@" or not prev:match("[%w_$>:]") then
@@ -867,7 +975,9 @@ local function call_at(line, more, c1, c2)
   local best
   for _, c in ipairs(scan_calls(line, more)) do
     if c1 <= c.ke and c2 >= c.s then
-      if not best or (c.ke - c.s) < (best.ke - best.s) then best = c end
+      if not best or (c.ke - c.s) < (best.ke - best.s) then
+        best = c
+      end
     end
   end
   return best
@@ -883,7 +993,9 @@ local function key_context(line, c0)
     local init = 1
     while true do
       local s, e = line:find(vim.pesc(fn) .. "%(%s*['\"]", init)
-      if not s then break end
+      if not s then
+        break
+      end
       init = e + 1
       local prev = s > 1 and line:sub(s - 1, s - 1) or ""
       if fn:sub(1, 1) == "@" or not prev:match("[%w_$>:]") then
@@ -915,9 +1027,15 @@ local function string_span_at(line, col)
           j = j + 1
         end
       end
-      if j > n then return end
-      if col >= i and col <= j then return i, j, c end
-      if i > col then return end
+      if j > n then
+        return
+      end
+      if col >= i and col <= j then
+        return i, j, c
+      end
+      if i > col then
+        return
+      end
       i = j + 1
     else
       i = i + 1
@@ -928,13 +1046,18 @@ end
 -- classifica a string: "php" (código) ou "attr" (valor de atributo HTML em Blade)
 local function string_ctx(line, col, is_blade)
   local i, j, q = string_span_at(line, col)
-  if not i then return end
-  if not is_blade then return i, j, q, "php" end
+  if not i then
+    return
+  end
+  if not is_blade then
+    return i, j, q, "php"
+  end
 
   local before = line:sub(1, i - 1)
-  if before:match("[%w_:@%.%-]+=$") then return i, j, q, "attr" end
-  if before:find("{{", 1, true) or before:find("{!!", 1, true)
-    or before:find("@[%w_]+%s*%(") or before:find("<%?") then
+  if before:match("[%w_:@%.%-]+=$") then
+    return i, j, q, "attr"
+  end
+  if before:find("{{", 1, true) or before:find("{!!", 1, true) or before:find("@[%w_]+%s*%(") or before:find("<%?") then
     return i, j, q, "php"
   end
 end
@@ -955,9 +1078,13 @@ local function plan_replacement(line, is_blade, s, e, collapsed)
 
   if i then
     local cs, ce = i + 1, j - 1 -- conteúdo da string
-    if collapsed then s, e = cs, ce end
+    if collapsed then
+      s, e = cs, ce
+    end
     s, e = math.max(s, cs), math.min(e, ce)
-    if s > e then return end
+    if s > e then
+      return
+    end
 
     local text = unescape(q, line:sub(s, e))
     local full = (s == cs and e == ce)
@@ -972,9 +1099,12 @@ local function plan_replacement(line, is_blade, s, e, collapsed)
         if name_s and is_comp then
           local name = line:sub(name_s, i - 2)
           if not name:match("^[:@]") then
-            return name_s, j, text, function(key)
-              return (':%s="__(\'%s\')"'):format(name, esc(key))
-            end
+            return name_s,
+              j,
+              text,
+              function(key)
+                return (":%s=\"__('%s')\""):format(name, esc(key))
+              end
           end
         end
       end
@@ -982,21 +1112,32 @@ local function plan_replacement(line, is_blade, s, e, collapsed)
     end
 
     -- string PHP inteira
-    if full then return i, j, text, default_build end
+    if full then
+      return i, j, text, default_build
+    end
 
     -- trecho dentro da string: vira concatenação ('antes' . __('chave') . 'depois')
     local left, right = line:sub(cs, s - 1), line:sub(e + 1, ce)
-    return i, j, text, function(key)
-      local out = {}
-      if left ~= "" then out[#out + 1] = q .. left .. q .. " . " end
-      out[#out + 1] = default_build(key)
-      if right ~= "" then out[#out + 1] = " . " .. q .. right .. q end
-      return table.concat(out)
-    end
+    return i,
+      j,
+      text,
+      function(key)
+        local out = {}
+        if left ~= "" then
+          out[#out + 1] = q .. left .. q .. " . "
+        end
+        out[#out + 1] = default_build(key)
+        if right ~= "" then
+          out[#out + 1] = " . " .. q .. right .. q
+        end
+        return table.concat(out)
+      end
   end
 
   -- fora de string: só faz sentido em Blade (texto solto), com seleção
-  if collapsed or not is_blade then return end
+  if collapsed or not is_blade then
+    return
+  end
 
   local seg = line:sub(s, e)
   local lead = seg:match("^%s*<[^<>]*>%s*()")
@@ -1006,7 +1147,9 @@ local function plan_replacement(line, is_blade, s, e, collapsed)
   end
 
   local text = line:sub(s, e)
-  if text:match("^%s*$") then return end
+  if text:match("^%s*$") then
+    return
+  end
   return s, e, text, blade_echo_build
 end
 
@@ -1034,17 +1177,28 @@ end
 local function php_bounds(lines)
   local open, close
   for i, l in ipairs(lines) do
-    if l:match("^return%s*%[") then open = i break end
+    if l:match("^return%s*%[") then
+      open = i
+      break
+    end
   end
   for i = #lines, 1, -1 do
-    if lines[i]:match("^%];?%s*$") then close = i break end
+    if lines[i]:match("^%];?%s*$") then
+      close = i
+      break
+    end
   end
-  if not open or not close then return nil end
+  if not open or not close then
+    return nil
+  end
 
   local unit = "    "
   for i = open + 1, close - 1 do
     local ws = lines[i]:match("^(%s+)%S")
-    if ws then unit = ws break end
+    if ws then
+      unit = ws
+      break
+    end
   end
   return open, close, unit
 end
@@ -1052,12 +1206,16 @@ end
 -- linha (1-based) e coluna (0-based) da chave em um arquivo PHP de tradução
 local function locate_php(path, segs, dotted)
   local lines = vim.fn.readfile(path)
-  local function colof(l) return (l:find("['\"]") or 1) - 1 end
+  local function colof(l)
+    return (l:find("['\"]") or 1) - 1
+  end
 
   -- 1) chave plana: 'a.b.c' => ...
   local flat = "^%s*['\"]" .. vim.pesc(dotted) .. "['\"]%s*=>"
   for i, l in ipairs(lines) do
-    if l:match(flat) then return i, colof(l) end
+    if l:match(flat) then
+      return i, colof(l)
+    end
   end
 
   -- 2) caminho aninhado, respeitando a indentação de cada nível
@@ -1067,14 +1225,22 @@ local function locate_php(path, segs, dotted)
     local found
     for n, seg in ipairs(segs) do
       local i, j, kind = find_key(lines, s, e, indent, seg)
-      if not i then found = nil break end
+      if not i then
+        found = nil
+        break
+      end
       found = i
       if n < #segs then
-        if kind ~= "array" then found = nil break end
+        if kind ~= "array" then
+          found = nil
+          break
+        end
         s, e, indent = i + 1, j - 1, indent .. unit
       end
     end
-    if found then return found, colof(lines[found]) end
+    if found then
+      return found, colof(lines[found])
+    end
   end
 
   -- 3) fallback solto: acha os segmentos em sequência, qualquer indentação
@@ -1083,12 +1249,19 @@ local function locate_php(path, segs, dotted)
     local pat = "^%s*['\"]" .. vim.pesc(seg) .. "['\"]%s*=>"
     local hit
     for i = from, #lines do
-      if lines[i]:match(pat) then hit = i break end
+      if lines[i]:match(pat) then
+        hit = i
+        break
+      end
     end
-    if not hit then return nil end
+    if not hit then
+      return nil
+    end
     found, from = hit, hit + 1
   end
-  if found then return found, colof(lines[found]) end
+  if found then
+    return found, colof(lines[found])
+  end
 end
 
 -- linha e coluna da chave em um arquivo .json
@@ -1127,7 +1300,9 @@ local function add_php(path, segs, value)
   for n, seg in ipairs(segs) do
     local i, j, kind = find_key(lines, s, e, indent, seg)
     if i then
-      if n == #segs then return false, "já existe" end
+      if n == #segs then
+        return false, "já existe"
+      end
       if kind ~= "array" then
         return false, ("'%s' já existe como valor, não como array"):format(seg)
       end
@@ -1204,13 +1379,21 @@ local function key_info(key)
   end
 
   return {
-    key = key, root = root, ld = ld, group = group, rest = rest,
-    segs = segs, is_json = is_json, locales = locales,
+    key = key,
+    root = root,
+    ld = ld,
+    group = group,
+    rest = rest,
+    segs = segs,
+    is_json = is_json,
+    locales = locales,
   }
 end
 
 local function path_for(info, loc)
-  if info.is_json then return ("%s/%s.json"):format(info.ld, loc) end
+  if info.is_json then
+    return ("%s/%s.json"):format(info.ld, loc)
+  end
   return ("%s/%s/%s.php"):format(info.ld, loc, info.group)
 end
 
@@ -1257,7 +1440,9 @@ local function create_key(info, opts)
     footer = ("→ %s  ·  <CR> salva · <Esc> cancela"):format(vim.fn.fnamemodify(path, ":.")),
     default = default,
   }, function(v)
-    if v == nil then return end -- desistiu: nada é alterado
+    if v == nil then
+      return
+    end -- desistiu: nada é alterado
 
     local ok, res
     if info.is_json then
@@ -1269,7 +1454,9 @@ local function create_key(info, opts)
       return notify(("[%s] %s"):format(loc, res), vim.log.levels.WARN)
     end
 
-    if opts.on_saved then opts.on_saved() end
+    if opts.on_saved then
+      opts.on_saved()
+    end
 
     if not opts.no_open and M.open_after_create then
       if info.is_json then
@@ -1285,7 +1472,9 @@ end
 -- opts = { key, default, props, no_open, on_saved }
 local function add_flow(opts)
   local info = key_info(opts.key)
-  if not info then return end
+  if not info then
+    return
+  end
 
   -- usado pelo fluxo "texto -> chave": só precisa saber se existe no locale padrão
   if opts.no_open then
@@ -1297,7 +1486,9 @@ local function add_flow(opts)
       status = lookup_php(path, info.rest)
     end
     if status == "exists" then
-      if opts.on_saved then opts.on_saved() end
+      if opts.on_saved then
+        opts.on_saved()
+      end
       return
     end
     return create_key(info, opts)
@@ -1313,7 +1504,9 @@ local function add_flow(opts)
 
   -- existe em mais de um locale: escolher o arquivo
   local items = {}
-  for _, h in ipairs(hits) do items[#items + 1] = { hit = h } end
+  for _, h in ipairs(hits) do
+    items[#items + 1] = { hit = h }
+  end
   if hits[1].loc ~= info.locales[1] then
     items[#items + 1] = { create = true }
   end
@@ -1321,13 +1514,19 @@ local function add_flow(opts)
   vim.ui.select(items, {
     prompt = "Traduções de " .. info.key .. ":",
     format_item = function(it)
-      if it.create then return ("＋ Criar em [%s]"):format(info.locales[1]) end
+      if it.create then
+        return ("＋ Criar em [%s]"):format(info.locales[1])
+      end
       local h = it.hit
       return ("[%s] %s:%s  %s"):format(h.loc, vim.fn.fnamemodify(h.path, ":."), h.line or "?", short(h.value, 80))
     end,
   }, function(choice)
-    if not choice then return end
-    if choice.create then return create_key(info, opts) end
+    if not choice then
+      return
+    end
+    if choice.create then
+      return create_key(info, opts)
+    end
     open_at(choice.hit.path, choice.hit.line, choice.hit.col)
   end)
 end
@@ -1338,7 +1537,9 @@ end
 -- build(key) -> string que entra no lugar do trecho
 ---------------------------------------------------------------------------
 local function replace_flow(row, s, e, text, build)
-  if text == "" then return end
+  if text == "" then
+    return
+  end
   build = build or default_build
 
   local bufnr = vim.api.nvim_get_current_buf()
@@ -1346,7 +1547,9 @@ local function replace_flow(row, s, e, text, build)
   local expected = orig_line:sub(s, e)
 
   local function replace_with(key)
-    if not vim.api.nvim_buf_is_valid(bufnr) then return end
+    if not vim.api.nvim_buf_is_valid(bufnr) then
+      return
+    end
 
     -- a linha não pode ter mudado enquanto o input estava aberto
     local cur = vim.api.nvim_buf_get_lines(bufnr, row, row + 1, false)[1] or ""
@@ -1377,7 +1580,9 @@ local function replace_flow(row, s, e, text, build)
     return replace_with(cands[1])
   elseif #cands > 1 then
     return vim.ui.select(cands, { prompt = "Chaves com esse texto:" }, function(choice)
-      if choice then replace_with(choice) end
+      if choice then
+        replace_with(choice)
+      end
     end)
   end
 
@@ -1388,12 +1593,16 @@ local function replace_flow(row, s, e, text, build)
     complete = key_completer(ld, loc),
   }, function(key)
     key = key and vim.trim(key)
-    if not key or key == "" then return end
+    if not key or key == "" then
+      return
+    end
     add_flow({
       key = key,
       default = text,
       no_open = true,
-      on_saved = function() replace_with(key) end,
+      on_saved = function()
+        replace_with(key)
+      end,
     })
   end)
 end
@@ -1405,10 +1614,16 @@ end
 local function lang_rel_path(ld)
   local file = vim.fs.normalize(vim.api.nvim_buf_get_name(0))
   local prefix = vim.fs.normalize(ld) .. "/"
-  if file:sub(1, #prefix) ~= prefix then return nil end
+  if file:sub(1, #prefix) ~= prefix then
+    return nil
+  end
   local rel = file:sub(#prefix + 1)
-  if rel:match("^vendor/") then return nil end
-  if rel:match("%.json$") or rel:match("%.php$") then return rel end
+  if rel:match("^vendor/") then
+    return nil
+  end
+  if rel:match("%.json$") or rel:match("%.php$") then
+    return rel
+  end
 end
 
 local function opens_array(v)
@@ -1417,12 +1632,16 @@ end
 
 local function php_key_line(l)
   local ind, _, key, rest = l:match("^(%s*)(['\"])(.-)%2%s*=>%s*(.*)$")
-  if ind then return ind, key, rest end
+  if ind then
+    return ind, key, rest
+  end
 end
 
 local function json_key_on_line(line)
   local i = line:find('"', 1, true)
-  if not i or not line:sub(1, i - 1):match("^%s*$") then return end
+  if not i or not line:sub(1, i - 1):match("^%s*$") then
+    return
+  end
   local j = i + 1
   while j <= #line do
     local c = line:sub(j, j)
@@ -1434,10 +1653,16 @@ local function json_key_on_line(line)
       j = j + 1
     end
   end
-  if j > #line then return end
-  if not line:sub(j + 1):match("^%s*:") then return end
+  if j > #line then
+    return
+  end
+  if not line:sub(j + 1):match("^%s*:") then
+    return
+  end
   local ok, key = pcall(vim.json.decode, line:sub(i, j))
-  if ok and type(key) == "string" then return key end
+  if ok and type(key) == "string" then
+    return key
+  end
 end
 
 -- chave completa sob o cursor em um arquivo de tradução; retorna key, is_array
@@ -1450,7 +1675,9 @@ local function lang_key_at_cursor(rel)
   end
 
   local group = rel:match("^[^/]+/(.+)%.php$") -- tenant/app
-  if not group then return nil end
+  if not group then
+    return nil
+  end
 
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
 
@@ -1458,13 +1685,17 @@ local function lang_key_at_cursor(rel)
   local idx
   for i = lnum, math.max(1, lnum - 10), -1 do
     local l = lines[i]
-    if l:match("^%s*[%]%)]") then break end
+    if l:match("^%s*[%]%)]") then
+      break
+    end
     if php_key_line(l) then
       idx = i
       break
     end
   end
-  if not idx then return nil end
+  if not idx then
+    return nil
+  end
 
   local ind, key, rest = php_key_line(lines[idx])
   local parts = { key }
@@ -1473,7 +1704,9 @@ local function lang_key_at_cursor(rel)
   -- sobe pela indentação juntando os arrays pais
   for i = idx - 1, 1, -1 do
     local l = lines[i]
-    if l:match("^return") then break end
+    if l:match("^return") then
+      break
+    end
     local pind, pkey, prest = php_key_line(l)
     if pind and #pind < cur and opens_array(prest) then
       table.insert(parts, 1, pkey)
@@ -1489,7 +1722,9 @@ local function usage_col(text, key, is_array)
   local init = 1
   while true do
     local s, e = text:find(key, init, true)
-    if not s then return end
+    if not s then
+      return
+    end
     local before = s > 1 and text:sub(s - 1, s - 1) or ""
     local after = text:sub(e + 1, e + 1)
     if (before == "'" or before == '"') and (after == "'" or after == '"' or (is_array and after == ".")) then
@@ -1503,15 +1738,33 @@ local function search_usages(root, ld, key, is_array)
   local cmd
   if vim.fn.executable("rg") == 1 then
     cmd = {
-      "rg", "--line-number", "--no-heading", "--with-filename", "--color=never", "-F",
-      "-g", "!vendor/**", "-g", "!node_modules/**", "-g", "!storage/**",
-      "-e", key, ".",
+      "rg",
+      "--line-number",
+      "--no-heading",
+      "--with-filename",
+      "--color=never",
+      "-F",
+      "-g",
+      "!vendor/**",
+      "-g",
+      "!node_modules/**",
+      "-g",
+      "!storage/**",
+      "-e",
+      key,
+      ".",
     }
   elseif vim.fn.executable("grep") == 1 then
     cmd = {
-      "grep", "-rnIF",
-      "--exclude-dir=vendor", "--exclude-dir=node_modules", "--exclude-dir=storage", "--exclude-dir=.git",
-      "-e", key, ".",
+      "grep",
+      "-rnIF",
+      "--exclude-dir=vendor",
+      "--exclude-dir=node_modules",
+      "--exclude-dir=storage",
+      "--exclude-dir=.git",
+      "-e",
+      key,
+      ".",
     }
   else
     say("Instale ripgrep (rg) para buscar usos")
@@ -1521,7 +1774,9 @@ local function search_usages(root, ld, key, is_array)
   local ok, res = pcall(function()
     return vim.system(cmd, { cwd = root, text = true }):wait(15000)
   end)
-  if not ok or not res then return {} end
+  if not ok or not res then
+    return {}
+  end
 
   -- pasta lang relativa à raiz (para ignorar os próprios arquivos de tradução)
   local nroot, nld = vim.fs.normalize(root), vim.fs.normalize(ld)
@@ -1543,7 +1798,9 @@ local function search_usages(root, ld, key, is_array)
   end
 
   table.sort(items, function(a, b)
-    if a.file ~= b.file then return a.file < b.file end
+    if a.file ~= b.file then
+      return a.file < b.file
+    end
     return a.lnum < b.lnum
   end)
   return items
@@ -1573,7 +1830,9 @@ local function show_usages(root, key, items)
       return ("%s:%d  %s"):format(it.file, it.lnum, it.text)
     end,
   }, function(choice)
-    if choice then jump_to(root, choice) end
+    if choice then
+      jump_to(root, choice)
+    end
   end)
 end
 
@@ -1595,7 +1854,9 @@ local function cursor_place(n, w)
   local pos = vim.api.nvim_win_get_cursor(win)
   local acol = assist.ctx and (assist.ctx.qs + 1) or (pos[2] + 1)
   local sp = vim.fn.screenpos(win, pos[1], acol)
-  if not sp or sp.row == 0 then sp = { row = 1, col = 1 } end
+  if not sp or sp.row == 0 then
+    sp = { row = 1, col = 1 }
+  end
 
   local below = vim.o.lines - vim.o.cmdheight - 2 - sp.row
   local above = sp.row - 3
@@ -1613,14 +1874,20 @@ local function cursor_place(n, w)
 end
 
 local function assist_unbind()
-  if not assist.saved then return end
+  if not assist.saved then
+    return
+  end
   local buf, saved = assist.buf, assist.saved
   assist.saved = nil
-  if not (buf and vim.api.nvim_buf_is_valid(buf)) then return end
+  if not (buf and vim.api.nvim_buf_is_valid(buf)) then
+    return
+  end
   vim.api.nvim_buf_call(buf, function()
     for lhs, prev in pairs(saved) do
       pcall(vim.keymap.del, "i", lhs, { buffer = buf })
-      if prev then pcall(vim.fn.mapset, "i", false, prev) end
+      if prev then
+        pcall(vim.fn.mapset, "i", false, prev)
+      end
     end
   end)
 end
@@ -1630,7 +1897,9 @@ local function assist_stop()
     return
   end
   assist_unbind()
-  if assist.list then assist.list:close() end
+  if assist.list then
+    assist.list:close()
+  end
   if assist.active and assist.buf and vim.api.nvim_buf_is_valid(assist.buf) then
     vim.b[assist.buf].completion = assist.had
   end
@@ -1641,12 +1910,16 @@ end
 -- aceita o item selecionado: troca a chave inteira (até a aspa de fechamento)
 local function assist_accept()
   local item = assist.list and assist.list:current()
-  if not item then return end
+  if not item then
+    return
+  end
 
   local buf = assist.buf or vim.api.nvim_get_current_buf()
   local pos = vim.api.nvim_win_get_cursor(0)
   local cx = key_context(vim.api.nvim_get_current_line(), pos[2])
-  if not cx then return end
+  if not cx then
+    return
+  end
 
   local new = esc(item.word)
   local stop = cx.close and (cx.close - 1) or pos[2]
@@ -1657,7 +1930,9 @@ end
 
 -- mapeia as teclas enquanto a lista está visível; guarda e restaura mapeamentos locais anteriores
 local function assist_bind(buf)
-  if assist.saved then return end
+  if assist.saved then
+    return
+  end
   assist.saved = {}
 
   vim.api.nvim_buf_call(buf, function()
@@ -1673,10 +1948,14 @@ local function assist_bind(buf)
   end
 
   for _, lhs in ipairs({ "<Tab>", "<C-n>", "<Down>" }) do
-    map(lhs, function() assist.list:move(1) end)
+    map(lhs, function()
+      assist.list:move(1)
+    end)
   end
   for _, lhs in ipairs({ "<S-Tab>", "<C-p>", "<Up>" }) do
-    map(lhs, function() assist.list:move(-1) end)
+    map(lhs, function()
+      assist.list:move(-1)
+    end)
   end
   map("<CR>", function()
     if assist.list and assist.list.sel > 0 then
@@ -1690,22 +1969,34 @@ local function assist_bind(buf)
 end
 
 assist_refresh = function(force)
-  if not M.key_assist then return end
+  if not M.key_assist then
+    return
+  end
   local buf = vim.api.nvim_get_current_buf()
-  if vim.fn.mode():sub(1, 1) ~= "i" then return assist_stop() end
-  if vim.bo[buf].buftype ~= "" then return end
+  if vim.fn.mode():sub(1, 1) ~= "i" then
+    return assist_stop()
+  end
+  if vim.bo[buf].buftype ~= "" then
+    return
+  end
 
   local pos = vim.api.nvim_win_get_cursor(0)
   local cx = key_context(vim.api.nvim_get_current_line(), pos[2])
-  if not cx then return assist_stop() end
+  if not cx then
+    return assist_stop()
+  end
 
-  if assist.active and assist.buf ~= buf then assist_stop() end
+  if assist.active and assist.buf ~= buf then
+    assist_stop()
+  end
 
   if not assist.comp then
     local root = find_root()
     local ld = lang_dir(root)
     local loc = sort_locales(list_locales(ld, false), default_locale(root))[1]
-    if not loc then return end -- não é um projeto com traduções
+    if not loc then
+      return
+    end -- não é um projeto com traduções
     assist.comp = key_completer(ld, loc)
   end
 
@@ -1718,13 +2009,19 @@ assist_refresh = function(force)
   -- fecha menus de outros plugins que já tenham aberto
   vim.schedule(function()
     local b = package.loaded["blink.cmp"]
-    if b and b.is_visible and b.is_visible() then pcall(b.hide) end
+    if b and b.is_visible and b.is_visible() then
+      pcall(b.hide)
+    end
     local c = package.loaded["cmp"]
-    if c and c.visible and c.visible() then pcall(c.close) end
+    if c and c.visible and c.visible() then
+      pcall(c.close)
+    end
   end)
 
   local state = ("%d:%d:%s"):format(pos[1], cx.qs, cx.prefix)
-  if not force and state == assist.last then return end
+  if not force and state == assist.last then
+    return
+  end
   assist.last = state
 
   local items, exact = {}, false
@@ -1741,7 +2038,9 @@ assist_refresh = function(force)
     local parent = cx.prefix:match("^(.*[%./])") or ""
     items = {}
     for _, it in ipairs(assist.comp(parent)) do
-      if it.word ~= cx.prefix then items[#items + 1] = it end
+      if it.word ~= cx.prefix then
+        items[#items + 1] = it
+      end
     end
   end
 
@@ -1758,12 +2057,16 @@ end
 -- ativa o assistente de modo insert (chamar uma vez, ex.: em config/keymaps.lua)
 function M.setup()
   local group = vim.api.nvim_create_augroup("LaravelLangKeyAssist", { clear = true })
-  if not M.key_assist then return end
+  if not M.key_assist then
+    return
+  end
 
   vim.api.nvim_create_autocmd({ "InsertEnter", "CursorMovedI", "TextChangedI" }, {
     group = group,
     pattern = "*.php",
-    callback = function() assist_refresh(false) end,
+    callback = function()
+      assist_refresh(false)
+    end,
   })
   vim.api.nvim_create_autocmd({ "InsertLeave", "BufLeave", "WinLeave" }, {
     group = group,
@@ -1791,7 +2094,9 @@ function M.usages()
   end
 
   local items = search_usages(root, ld, key, is_array)
-  if not items then return end
+  if not items then
+    return
+  end
   if #items == 0 then
     return say("Nenhum uso encontrado para " .. key)
   end
@@ -1856,7 +2161,9 @@ function M.add_visual()
   end
 
   local seg = line:sub(s, e)
-  if seg:match("^%s*$") then return end
+  if seg:match("^%s*$") then
+    return
+  end
 
   -- ignora espaços nas pontas da seleção
   local lead, trail = #seg:match("^%s*"), #seg:match("%s*$")
@@ -1875,5 +2182,7 @@ function M.add_visual()
   end
   replace_flow(row0, rs, re, text, build)
 end
+
+M.ui = { input = input, find_root = find_root }
 
 return M

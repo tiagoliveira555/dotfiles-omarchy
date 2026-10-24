@@ -1,6 +1,7 @@
 local opts = { noremap = true, silent = true }
 
 local lang = require("config.laravel_lang")
+local livewire = require("config.laravel_livewire")
 lang.setup()
 
 -- local map = vim.keymap.set
@@ -68,8 +69,12 @@ vim.keymap.set("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 vim.keymap.set("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 if not vim.g.vscode then
-  vim.keymap.set("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete Buffer" })
-  vim.keymap.set("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
+  vim.keymap.set("n", "<leader>bd", function()
+    Snacks.bufdelete()
+  end, { desc = "Delete Buffer" })
+  vim.keymap.set("n", "<leader>bo", function()
+    Snacks.bufdelete.other()
+  end, { desc = "Delete Other Buffers" })
 end
 vim.keymap.set("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
@@ -127,5 +132,14 @@ vim.keymap.set("v", "<leader>ln", ':lua require("config.utils").get_highlighted_
 vim.keymap.set("n", "<Esc>", ":nohlsearch<CR>", opts)
 
 -- Laravel: traduzir / adicionar tradução
-vim.keymap.set("n", "gl", function() lang.add() end, { desc = "Laravel: traduções" })
-vim.keymap.set("x", "gl", function() lang.add_visual() end, { desc = "Laravel: traduzir seleção" })
+vim.keymap.set("n", "gl", function()
+  lang.add()
+end, { desc = "Laravel: traduções" })
+vim.keymap.set("x", "gl", function()
+  lang.add_visual()
+end, { desc = "Laravel: traduzir seleção" })
+
+-- Laravel: criar Livewire componente
+vim.keymap.set("n", "<leader>Ll", function()
+  livewire.create()
+end, { desc = "Laravel: novo componente Livewire" })
