@@ -3,7 +3,21 @@ return {
     "folke/which-key.nvim",
     opts = function(_, opts)
       opts.spec = {
-        { "<leader>L", group = "Laravel", icon = "" },
+        {
+          "<leader>l",
+          group = function()
+            local n = 0
+            for _, m in ipairs(vim.api.nvim_get_keymap("n")) do
+              if m.lhs:find("^ l") then
+                n = n + 1
+              end
+            end
+            return ("%d Laravel"):format(n)
+          end,
+          icon = "",
+        },
+        -- { "<leader>l", group = "Laravel", icon = "" },
+        { "<leader>L", desc = "Lazy", icon = { icon = "\u{f04b2} ", color = "blue" } },
       }
     end,
   },

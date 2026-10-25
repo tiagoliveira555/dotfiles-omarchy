@@ -32,7 +32,8 @@ return {
                 text = function(ctx)
                   local icon = ctx.kind_icon
                   if is_blade_nav(ctx) then
-                    icon = ""                   end
+                    icon = ""
+                  end
                   return " " .. icon .. ctx.icon_gap .. " "
                 end,
                 highlight = function(ctx)
@@ -56,12 +57,8 @@ return {
 
       sources = {
         compat = {},
-        default = { "laravel", "lsp", "blade-nav", "path", "snippets", "buffer" },
+        default = { "lsp", "blade-nav", "path", "snippets", "buffer" },
         providers = {
-          laravel = {
-            name = "laravel",
-            module = "laravel.blink_source",
-          },
           ["blade-nav"] = {
             name = "blade-nav",
             module = "blade-nav.integrations.blink",
