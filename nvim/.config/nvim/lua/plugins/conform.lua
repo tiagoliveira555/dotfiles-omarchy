@@ -36,6 +36,7 @@ return {
 
       -- PHP/Laravel
       php = { "pint" },
+      blade = { "blade-formatter" },
 
       -- Shell
       sh = { "shfmt" },
@@ -45,7 +46,32 @@ return {
       lsp_format = "fallback",
     },
   },
+
   init = function()
+    local function register_conform()
+      LazyVim.format.register({
+        name = "conform.nvim",
+        priority = 100,
+        primary = true,
+        format = function(buf)
+          require("conform").format({ bufnr = buf })
+        end,
+        sources = function(buf)
+          local formatters = require("conform").list_formatters(buf)
+
+          return vim.tbl_map(function(formatter)
+            return formatter.name
+          end, formatters)
+        end,
+      })
+    end
+
+    if vim.v.vim_did_enter == 1 then
+      register_conform()
+    else
+      LazyVim.on_very_lazy(register_conform)
+    end
+
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
   end,
 }

@@ -1,7 +1,7 @@
 return {
   {
     "supermaven-inc/supermaven-nvim",
-    enabled = true,
+    enabled = false,
     config = function()
       require("supermaven-nvim").setup({})
     end,
@@ -42,10 +42,10 @@ return {
       },
     },
     keys = {
-      { "<leader>ic", "<cmd>CodeCompanion<cr>",        desc = "CodeCompanion" },
-      { "<leader>iC", "<cmd>CodeCompanionChat<cr>",    desc = "CodeCompanion Chat" },
+      { "<leader>ic", "<cmd>CodeCompanion<cr>", desc = "CodeCompanion" },
+      { "<leader>iC", "<cmd>CodeCompanionChat<cr>", desc = "CodeCompanion Chat" },
       { "<leader>ia", "<cmd>CodeCompanionActions<cr>", desc = "CodeCompanion Actions" },
-      { "<leader>id", "<cmd>CodeCompanionCmd<cr>",     desc = "CodeCompanion CMD" },
+      { "<leader>id", "<cmd>CodeCompanionCmd<cr>", desc = "CodeCompanion CMD" },
     },
     dependencies = {
       "j-hui/fidget.nvim",
@@ -72,9 +72,9 @@ return {
             height = 10,
             prompt = "Prompt ",
             -- Prompt used for interactive LLM calls
-            provider = "snacks",                  -- Can be "default", "telescope", "mini_pick" or "snacks". If not specified, the plugin will autodetect installed providers.
+            provider = "snacks", -- Can be "default", "telescope", "mini_pick" or "snacks". If not specified, the plugin will autodetect installed providers.
             opts = {
-              show_default_actions = true,        -- Show the default actions in the action palette?
+              show_default_actions = true, -- Show the default actions in the action palette?
               show_default_prompt_library = true, -- Show the default prompt library in the action palette?
             },
           },
@@ -86,7 +86,7 @@ return {
     "yetone/avante.nvim",
     enabled = false,
     build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-        or "make",
+      or "make",
     event = "VeryLazy",
     version = false, -- Never set this value to "*"! Never!
     opts = {
@@ -108,14 +108,14 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
-      "nvim-mini/mini.pick",           -- for file_selector provider mini.pick
+      "nvim-mini/mini.pick", -- for file_selector provider mini.pick
       "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
-      "ibhagwan/fzf-lua",              -- for file_selector provider fzf
-      "stevearc/dressing.nvim",        -- for input provider dressing
-      "folke/snacks.nvim",             -- for input provider snacks
-      "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua",        -- for providers='copilot'
+      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+      "ibhagwan/fzf-lua", -- for file_selector provider fzf
+      "stevearc/dressing.nvim", -- for input provider dressing
+      "folke/snacks.nvim", -- for input provider snacks
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
       {
         -- support for image pasting
         "HakonHarnes/img-clip.nvim",
@@ -171,10 +171,10 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     enabled = false,
     dependencies = {
-      { "github/copilot.vim" },                       -- or zbirenbaum/copilot.lua
+      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
       { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
     },
-    build = "make tiktoken",                          -- Only on MacOS or Linux
+    build = "make tiktoken", -- Only on MacOS or Linux
     opts = {
       -- See Configuration section for options
     },
