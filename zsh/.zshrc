@@ -76,3 +76,4 @@ setopt interactivecomments
 
 # GPU híbrida: HYBRID se a NVIDIA está disponível, INTEGRATED se não
 alias gpumode='if lspci -k | grep -A3 -E "VGA|3D" | grep -q "driver in use: nvidia" && nvidia-smi -L >/dev/null 2>&1; then echo "HYBRID"; else echo "INTEGRATED"; fi'
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"

@@ -16,7 +16,19 @@ return {
           end
         end,
         init_options = {
+          appBindingDiagnostics = false,
+          assetDiagnostics = false,
+          authDiagnostics = false,
+          configDiagnostics = false,
+          controllerActionDiagnostics = false,
+          envDiagnostics = false,
+          inertiaDiagnostics = false,
+          middlewareDiagnostics = false,
+          mixDiagnostics = false,
+          routeDiagnostics = false,
+          storageDiagnostics = false,
           translationDiagnostics = false,
+          viewDiagnostics = false,
         },
       })
 

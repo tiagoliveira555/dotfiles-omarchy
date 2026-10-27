@@ -36,7 +36,7 @@ return {
 
       -- PHP/Laravel
       php = { "pint" },
-      blade = { "blade-formatter" },
+      -- blade = { "blade-formatter" },
 
       -- Shell
       sh = { "shfmt" },
