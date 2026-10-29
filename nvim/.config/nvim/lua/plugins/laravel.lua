@@ -1,16 +1,16 @@
 return {
-  {
-    "tiagoliveira555/laravel.nvim",
-    main = "laravel_tools",
-    event = "VeryLazy",
-    opts = {},
-  },
   -- {
-  --   dir = "~/Projects/laravel.nvim",
+  --   "tiagoliveira555/laravel.nvim",
   --   main = "laravel_tools",
   --   event = "VeryLazy",
   --   opts = {},
   -- },
+  {
+    dir = "~/Projects/laravel.nvim",
+    main = "laravel_tools",
+    event = "VeryLazy",
+    opts = {},
+  },
   -- {
   --   "adibhanna/laravel.nvim",
   --   dependencies = {
