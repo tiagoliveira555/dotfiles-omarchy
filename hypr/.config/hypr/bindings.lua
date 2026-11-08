@@ -18,13 +18,13 @@
 
 -- ===== Atalhos com Shift que ganharam versão sem Shift (duplicados) =====
 -- hl.unbind("SUPER + SHIFT + RETURN")     -- Browser -> Super + B
-hl.unbind("SUPER + SHIFT + B")          -- Browser -> Super + B
-hl.unbind("SUPER + SHIFT + F")          -- Arquivos -> Super + E
+hl.unbind("SUPER + SHIFT + B") -- Browser -> Super + B
+hl.unbind("SUPER + SHIFT + F") -- Arquivos -> Super + E
 -- hl.unbind("SUPER + ALT + SHIFT + F")    -- Arquivos (cwd) -> Super + Alt + E
-hl.unbind("SUPER + SHIFT + N")          -- Editor -> Super + N
+hl.unbind("SUPER + SHIFT + N") -- Editor -> Super + N
 -- hl.unbind("SUPER + SHIFT + M")          -- Música -> Super + M
-hl.unbind("SUPER + SHIFT + D")          -- Docker -> Super + D
-hl.unbind("SUPER + SHIFT + Y")          -- YouTube -> Super + Y
+hl.unbind("SUPER + SHIFT + D") -- Docker -> Super + D
+hl.unbind("SUPER + SHIFT + Y") -- YouTube -> Super + Y
 
 -- Bloquear tela: Super + Shift + Escape
 o.bind("SUPER + SHIFT + ESCAPE", "Lock system", "omarchy-system-lock")
@@ -60,23 +60,25 @@ o.bind("SUPER + SHIFT + DELETE", "Kill focused window", hl.dsp.window.kill())
 
 -- ===== Janelas e apps (atalhos simples, sem Shift) =====
 -- O padrão do Omarchy 4 só fecha com Super + W; Super + Q é adicionado aqui
-o.bind("SUPER + Q",       "Close window",                 hl.dsp.window.close())
-o.bind("SUPER + B",       "Browser",                      { omarchy = "browser" })
-o.bind("SUPER + E",       "File manager",                 { omarchy = "nautilus" })
-o.bind("SUPER + N",       "Editor (Neovim)",              { omarchy = "editor" })
-o.bind("SUPER + M",       "System Monitor",               "gnome-system-monitor")
-o.bind("SUPER + D",       "Docker (LazyDocker)",          { tui = "omarchy-launch-docker-tui" })
-o.bind("SUPER + Y",       "YouTube",                      { webapp = "https://youtube.com/" })
+o.bind("SUPER + Q", "Close window", hl.dsp.window.close())
+o.bind("SUPER + B", "Browser", { omarchy = "browser" })
+o.bind("SUPER + E", "File manager", { omarchy = "nautilus" })
+o.bind("SUPER + N", "Editor (Neovim)", { omarchy = "editor" })
+o.bind("SUPER + M", "System Monitor", "gnome-system-monitor")
+o.bind("SUPER + D", "Docker (LazyDocker)", { tui = "omarchy-launch-docker-tui" })
+o.bind("SUPER + Y", "YouTube", { webapp = "https://youtube.com/" })
 
 -- ===== IDEs e ferramentas de desenvolvimento (camada Super + Alt) =====
 -- Comando simples: se o programa não estiver instalado, o atalho não faz nada
-o.bind("SUPER + ALT + V", "VS Code",   "code")
-o.bind("SUPER + ALT + P", "PhpStorm",  "phpstorm")
+o.bind("SUPER + ALT + V", "VS Code", "code")
+o.bind("SUPER + ALT + P", "PhpStorm", "phpstorm")
 o.bind("SUPER + ALT + D", "LaraDumps", "laradumps")
-o.bind("SUPER + ALT + T", "Teams",  "teams-for-linux")
+o.bind("SUPER + ALT + T", "Teams", "teams-for-linux")
 o.bind("SUPER + ALT + E", "Editor de texto", "gnome-text-editor")
-o.bind("SUPER + ALT + Q",  "Calculator", "gnome-calculator")
+o.bind("SUPER + ALT + Q", "Calculator", "gnome-calculator")
 o.bind("SUPER + ALT + RETURN", "Tmux", { omarchy = "terminal-tmux" })
+o.bind("SUPER + CTRL + RETURN", "Herdr", { omarchy = "terminal-herdr" })
+o.bind("SUPER + ALT + B", "DbGate", "dbgate")
 
 -- ===== Teclas especiais do Logitech Pebble Keys 2 K380s (modo Windows) =====
 -- F9 (print): o teclado envia Super + Shift + S

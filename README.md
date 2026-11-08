@@ -2,14 +2,14 @@
 
 My personal dotfiles and customizations for [Omarchy](https://omarchy.org/), managed with Git and GNU Stow.
 
-This repository contains my development environment, Hyprland configuration, shell setup, Neovim configuration, VS Code preferences, helper scripts, and custom Omarchy plugins.
+This repository contains my development environment, Hyprland configuration, shell setup, Neovim configuration, VS Code preferences, helper scripts, and a custom Omarchy plugin.
 
 ## What's Included
 
 ### Desktop Environment
 
 - **Hyprland** — window manager, keybindings, input, startup applications, and visual settings.
-- **Omarchy** — custom shell configuration and additional bar widgets.
+- **Omarchy** — native desktop features and a custom screen recording widget.
 - **Monitor configuration** — local Hyprland monitor settings.
 
 ### Development Tools
@@ -25,28 +25,28 @@ Helper scripts for tasks such as:
 
 - Audio profile configuration.
 - Hybrid graphics setup.
-- Opening files with Vim in a floating terminal.
 - VS Code setup.
 
-### Custom Omarchy Plugins
+### Custom Omarchy Plugin
 
-The repository includes four custom plugins:
+The repository includes one custom plugin:
 
-- **`tiago.clock`** — custom clock widget.
-- **`tiago.weather`** — weather widget.
-- **`tiago.notifications`** — custom notification components and logic.
 - **`tiago.screen-recording`** — recording status indicator in the bar, with an action to stop screen recording.
+
+Clock, weather, notifications, and language support use Omarchy's native features instead of custom implementations.
 
 ## Repository Structure
 
 ```text
 .
-├── bin/                 # Helper scripts
-├── git/                 # Git configuration
-├── hypr/                # Hyprland configuration
-├── hypr-local/          # Local monitor settings
-├── nvim/                # Neovim configuration
-├── omarchy/              # Omarchy configuration and plugins
+├── bin/                  # Helper scripts
+├── git/                  # Git configuration
+├── hypr/                 # Hyprland configuration
+├── hypr-local/           # Local monitor settings
+├── nvim/                 # Neovim configuration
+├── omarchy/
+│   └── plugins/
+│       └── tiago.screen-recording/
 ├── vscode/               # VS Code settings and theme
 ├── zsh/                  # Zsh configuration
 └── restore.sh            # Setup and restore script
@@ -54,7 +54,7 @@ The repository includes four custom plugins:
 
 ## Requirements
 
-This setup is intended for Omarchy on Arch Linux.
+This setup is intended for Omarchy 4.5 or later on Arch Linux.
 
 The restoration workflow uses GNU Stow and also relies on tools such as Git, Zsh, and `jq`. VS Code setup and some helper scripts require their respective applications or utilities to be available.
 
@@ -81,10 +81,10 @@ The repository is named `dotfiles-omarchy` on GitHub, but the local directory mu
 
 - These are my personal configurations, tailored to my workflow and hardware.
 - `hypr-local/monitors.lua` contains machine-specific monitor settings.
+- Omarchy's native language configuration is used for Portuguese (Brazil).
 - Some scripts and settings may require adjustments on other systems.
 - Changes to the repository should be reviewed and tested before applying them to an existing installation.
 
 ## License
 
 Unless a license is added to this repository, all rights are reserved by default. Feel free to explore the configurations, but check with me before redistributing the repository or its contents.
-

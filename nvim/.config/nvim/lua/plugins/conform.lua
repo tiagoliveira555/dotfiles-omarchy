@@ -42,8 +42,14 @@ return {
       sh = { "shfmt" },
       bash = { "shfmt" },
     },
+    formatters = {
+      pint = {
+        timeout_ms = 10000,
+      },
+    },
     default_format_opts = {
       lsp_format = "fallback",
+      timeout_ms = 10000,
     },
   },
 
